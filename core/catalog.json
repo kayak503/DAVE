@@ -1,0 +1,1025 @@
+[
+  {
+    "id": "whisper-tiny",
+    "name": "Whisper Tiny English",
+    "task": "stt",
+    "tier": "Light",
+    "memoryGB": 1,
+    "dtype": "q8",
+    "license": "MIT",
+    "repo": "onnx-community/whisper-tiny.en",
+    "revision": "2575352d61be1bf7225cf8f8b268a4678025fc58",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Light English recognition. Runs locally on CPU.",
+    "sizeMB": 46,
+    "files": [
+      {
+        "path": "added_tokens.json",
+        "size": 34604,
+        "algorithm": "git-sha1",
+        "hash": "0b661e7eeafa60f4366f802cc18d99a08574861c"
+      },
+      {
+        "path": "config.json",
+        "size": 2197,
+        "algorithm": "git-sha1",
+        "hash": "909d31b7c4123f177a3cb4c536a115d8ed758d4e"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 1646,
+        "algorithm": "git-sha1",
+        "hash": "c4a4cdec79d2ecbce5b0c7d0cdefd8fec293da1f"
+      },
+      {
+        "path": "merges.txt",
+        "size": 456318,
+        "algorithm": "git-sha1",
+        "hash": "226b0752cac7789c48f0cb3ec53eda48b7be36cc"
+      },
+      {
+        "path": "normalizer.json",
+        "size": 52666,
+        "algorithm": "git-sha1",
+        "hash": "dd6ae819ad738ac1a546e9f9282ef325c33b9ea0"
+      },
+      {
+        "path": "onnx/decoder_model_merged_quantized.onnx",
+        "size": 30718858,
+        "algorithm": "sha256",
+        "hash": "c0592d0749413c960569e1c7fb806b060d5d18f3ebad4a95cbf9a77dc6e9be52"
+      },
+      {
+        "path": "onnx/encoder_model_quantized.onnx",
+        "size": 10124993,
+        "algorithm": "sha256",
+        "hash": "e93ec822f16a8fd264e7de972ad17d615ea7334b75a52d54c50c2e18dd503a25"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "size": 339,
+        "algorithm": "git-sha1",
+        "hash": "91876762a536a746d268353c5cba57286e76b058"
+      },
+      {
+        "path": "special_tokens_map.json",
+        "size": 2173,
+        "algorithm": "git-sha1",
+        "hash": "92ed14a135b0f5dce4832c245d2d840e026fd11a"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 2405679,
+        "algorithm": "git-sha1",
+        "hash": "b5bd266de2f9b9a68efe13fb48ac6830ca71c0bb"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 282662,
+        "algorithm": "git-sha1",
+        "hash": "220314442bbc85c24bb2ee0b4b8d682615dd79e7"
+      },
+      {
+        "path": "vocab.json",
+        "size": 999186,
+        "algorithm": "git-sha1",
+        "hash": "a15dd0028acd1dd2c1c2394c80e1de8f3f12a0e4"
+      }
+    ]
+  },
+  {
+    "id": "whisper-base",
+    "name": "Whisper Base English",
+    "task": "stt",
+    "tier": "Balanced",
+    "memoryGB": 2,
+    "dtype": "q8",
+    "license": "MIT",
+    "repo": "onnx-community/whisper-base.en",
+    "revision": "51eefc0af78b103839eda9e7e4f4186acc6517fe",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Balanced English recognition. Runs locally on CPU.",
+    "sizeMB": 82,
+    "files": [
+      {
+        "path": "added_tokens.json",
+        "size": 34604,
+        "algorithm": "git-sha1",
+        "hash": "0b661e7eeafa60f4366f802cc18d99a08574861c"
+      },
+      {
+        "path": "config.json",
+        "size": 2197,
+        "algorithm": "git-sha1",
+        "hash": "1d26eef96852a247a15abeee24630b81de8c5835"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 1556,
+        "algorithm": "git-sha1",
+        "hash": "84c050f8e56d93c2b29d9768be849360960483a7"
+      },
+      {
+        "path": "merges.txt",
+        "size": 456318,
+        "algorithm": "git-sha1",
+        "hash": "226b0752cac7789c48f0cb3ec53eda48b7be36cc"
+      },
+      {
+        "path": "normalizer.json",
+        "size": 52666,
+        "algorithm": "git-sha1",
+        "hash": "dd6ae819ad738ac1a546e9f9282ef325c33b9ea0"
+      },
+      {
+        "path": "onnx/decoder_model_merged_quantized.onnx",
+        "size": 53692803,
+        "algorithm": "sha256",
+        "hash": "dd4761a3f7add26afda3512abff4706920404c2517e85a9f2ff090b0c0987909"
+      },
+      {
+        "path": "onnx/encoder_model_quantized.onnx",
+        "size": 23201320,
+        "algorithm": "sha256",
+        "hash": "6e8001198c490bbae018c0044f630c2915efb826bad957006ce36152d0ab2a10"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "size": 339,
+        "algorithm": "git-sha1",
+        "hash": "91876762a536a746d268353c5cba57286e76b058"
+      },
+      {
+        "path": "special_tokens_map.json",
+        "size": 2173,
+        "algorithm": "git-sha1",
+        "hash": "92ed14a135b0f5dce4832c245d2d840e026fd11a"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 2405679,
+        "algorithm": "git-sha1",
+        "hash": "b5bd266de2f9b9a68efe13fb48ac6830ca71c0bb"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 282662,
+        "algorithm": "git-sha1",
+        "hash": "220314442bbc85c24bb2ee0b4b8d682615dd79e7"
+      },
+      {
+        "path": "vocab.json",
+        "size": 999186,
+        "algorithm": "git-sha1",
+        "hash": "a15dd0028acd1dd2c1c2394c80e1de8f3f12a0e4"
+      }
+    ]
+  },
+  {
+    "id": "whisper-small",
+    "name": "Whisper Small English",
+    "task": "stt",
+    "tier": "Quality",
+    "memoryGB": 4,
+    "dtype": "q8",
+    "license": "MIT",
+    "repo": "onnx-community/whisper-small.en",
+    "revision": "482fb8ba081b6e906f92efe103622316b2a0cc69",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Quality English recognition. Runs locally on CPU.",
+    "sizeMB": 254,
+    "files": [
+      {
+        "path": "added_tokens.json",
+        "size": 34604,
+        "algorithm": "git-sha1",
+        "hash": "0b661e7eeafa60f4366f802cc18d99a08574861c"
+      },
+      {
+        "path": "config.json",
+        "size": 2203,
+        "algorithm": "git-sha1",
+        "hash": "addf243260366954f680bba396c6f8be6557d163"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 1956,
+        "algorithm": "git-sha1",
+        "hash": "5d992f09576afe6e961860bb4f97de33aba08f86"
+      },
+      {
+        "path": "merges.txt",
+        "size": 456318,
+        "algorithm": "git-sha1",
+        "hash": "226b0752cac7789c48f0cb3ec53eda48b7be36cc"
+      },
+      {
+        "path": "normalizer.json",
+        "size": 52666,
+        "algorithm": "git-sha1",
+        "hash": "dd6ae819ad738ac1a546e9f9282ef325c33b9ea0"
+      },
+      {
+        "path": "onnx/decoder_model_merged_quantized.onnx",
+        "size": 156750076,
+        "algorithm": "sha256",
+        "hash": "29132c41903c252d0f2b9e59ee1e7d75f7d0b64d37f3e36d1ecc4a1a1af62953"
+      },
+      {
+        "path": "onnx/encoder_model_quantized.onnx",
+        "size": 92326170,
+        "algorithm": "sha256",
+        "hash": "dae677b93ca77f911d858238e277026fa8f95a94cb899ea443ec78ee62726edf"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "size": 339,
+        "algorithm": "git-sha1",
+        "hash": "91876762a536a746d268353c5cba57286e76b058"
+      },
+      {
+        "path": "special_tokens_map.json",
+        "size": 2173,
+        "algorithm": "git-sha1",
+        "hash": "92ed14a135b0f5dce4832c245d2d840e026fd11a"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 2405679,
+        "algorithm": "git-sha1",
+        "hash": "b5bd266de2f9b9a68efe13fb48ac6830ca71c0bb"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 282662,
+        "algorithm": "git-sha1",
+        "hash": "220314442bbc85c24bb2ee0b4b8d682615dd79e7"
+      },
+      {
+        "path": "vocab.json",
+        "size": 999186,
+        "algorithm": "git-sha1",
+        "hash": "a15dd0028acd1dd2c1c2394c80e1de8f3f12a0e4"
+      }
+    ]
+  },
+  {
+    "id": "whisper-medium",
+    "name": "Whisper Medium English",
+    "task": "stt",
+    "tier": "High quality",
+    "memoryGB": 6,
+    "dtype": "q8",
+    "license": "Apache-2.0",
+    "repo": "Xenova/whisper-medium.en",
+    "revision": "4fbcf6e6deb6b1af698e6925bfe00730bd4be715",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Higher-capacity English recognition for detailed recordings. Recommended for multi-person transcripts; speaker labels use a separate model. Slower on CPU.",
+    "sizeMB": 780,
+    "files": [
+      {
+        "path": "added_tokens.json",
+        "size": 2082,
+        "algorithm": "git-sha1",
+        "hash": "836c38f2766fb374e4d4b08764885289ffb92a7d"
+      },
+      {
+        "path": "config.json",
+        "size": 2324,
+        "algorithm": "git-sha1",
+        "hash": "ca870d19a9937fa12b7d62e573bf04a2facb37b7"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 1916,
+        "algorithm": "git-sha1",
+        "hash": "1e9de1278fe6e1ac2c91c56fcbd593042b14111a"
+      },
+      {
+        "path": "merges.txt",
+        "size": 456318,
+        "algorithm": "git-sha1",
+        "hash": "226b0752cac7789c48f0cb3ec53eda48b7be36cc"
+      },
+      {
+        "path": "normalizer.json",
+        "size": 52666,
+        "algorithm": "git-sha1",
+        "hash": "dd6ae819ad738ac1a546e9f9282ef325c33b9ea0"
+      },
+      {
+        "path": "onnx/decoder_model_merged_quantized.onnx",
+        "size": 462660582,
+        "algorithm": "sha256",
+        "hash": "0b009dc2d71add45954b927ff01815d25d9d397bbb8b2ad72c6b9bd3279d7607"
+      },
+      {
+        "path": "onnx/encoder_model_quantized.onnx",
+        "size": 313468028,
+        "algorithm": "sha256",
+        "hash": "c6fdaff8017b837b7b205ccd1d5f283008f4ee9677a29e503b3cf8e68efa9bb3"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "size": 339,
+        "algorithm": "git-sha1",
+        "hash": "91876762a536a746d268353c5cba57286e76b058"
+      },
+      {
+        "path": "special_tokens_map.json",
+        "size": 1717,
+        "algorithm": "git-sha1",
+        "hash": "82422c54759d0265bf97ba5a92a334d9eb747edf"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 2128494,
+        "algorithm": "git-sha1",
+        "hash": "ba4bb296bdaeeda36b8ce0e6e94c986a156090b2"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 835,
+        "algorithm": "git-sha1",
+        "hash": "0009400790fd6ae115b0c4fa1e7bf19140bcc5fc"
+      },
+      {
+        "path": "vocab.json",
+        "size": 999186,
+        "algorithm": "git-sha1",
+        "hash": "a15dd0028acd1dd2c1c2394c80e1de8f3f12a0e4"
+      }
+    ]
+  },
+  {
+    "id": "whisper-large-turbo",
+    "name": "Whisper Large v3 Turbo",
+    "task": "stt",
+    "tier": "Highest capacity",
+    "memoryGB": 8,
+    "dtype": "q8",
+    "license": "MIT",
+    "repo": "onnx-community/whisper-large-v3-turbo",
+    "revision": "360ebcde2559d60bb474678be3c1de9ef347d01a",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Large multilingual Whisper with a streamlined decoder. Higher-capacity option for difficult recordings; speaker detection remains separate. English transcription is selected by this app.",
+    "sizeMB": 1089,
+    "language": "english",
+    "files": [
+      {
+        "path": "added_tokens.json",
+        "size": 34648,
+        "algorithm": "git-sha1",
+        "hash": "1b33526d33aaa60d79f78ae8651dae50b730185a"
+      },
+      {
+        "path": "config.json",
+        "size": 1332,
+        "algorithm": "git-sha1",
+        "hash": "075c98fd4c7f1fe14efa6004a965b3b06103fb3a"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 3897,
+        "algorithm": "git-sha1",
+        "hash": "570eaecb3faa7055f6c8365a7193c2e8704bc2f3"
+      },
+      {
+        "path": "merges.txt",
+        "size": 493869,
+        "algorithm": "git-sha1",
+        "hash": "6038932a2a1f09a66991b1c2adae0d14066fa29e"
+      },
+      {
+        "path": "normalizer.json",
+        "size": 52666,
+        "algorithm": "git-sha1",
+        "hash": "dd6ae819ad738ac1a546e9f9282ef325c33b9ea0"
+      },
+      {
+        "path": "onnx/decoder_model_merged_quantized.onnx",
+        "size": 439936716,
+        "algorithm": "sha256",
+        "hash": "61481bd3be3a445d5a4b9070e8f8b2c6cc4fbbbbdc9f0e7ed048a132b8b84e0d"
+      },
+      {
+        "path": "onnx/encoder_model_quantized.onnx",
+        "size": 644822195,
+        "algorithm": "sha256",
+        "hash": "d2f853dc3254fdc0079f55dd4433ea716ac98ec5574d3b475f288f2a77cebba9"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "size": 340,
+        "algorithm": "git-sha1",
+        "hash": "931c77a740890c46365c7ae0c9d350ba3cca908f"
+      },
+      {
+        "path": "special_tokens_map.json",
+        "size": 2186,
+        "algorithm": "git-sha1",
+        "hash": "312bc106291bb51bf2cc1648df070bef963a0639"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 2480617,
+        "algorithm": "git-sha1",
+        "hash": "3a5e2ba63acdcac9a19ba56cf9bd27f185bfff61"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 282843,
+        "algorithm": "git-sha1",
+        "hash": "06ffdc8308eae6bb7bd1fdd81e94b0a881a539ab"
+      },
+      {
+        "path": "vocab.json",
+        "size": 1036558,
+        "algorithm": "git-sha1",
+        "hash": "0f3456460629e21d559c6daa23ab6ce3644e8271"
+      }
+    ]
+  },
+  {
+    "id": "kokoro-q8",
+    "name": "Kokoro Compact",
+    "task": "tts",
+    "tier": "Light",
+    "memoryGB": 2,
+    "dtype": "q8",
+    "license": "Apache-2.0",
+    "repo": "onnx-community/Kokoro-82M-v1.0-ONNX",
+    "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Smaller quantized natural English speech. Runs locally on CPU.",
+    "sizeMB": 95,
+    "voices": [
+      {
+        "id": "af_heart",
+        "name": "Heart · US"
+      },
+      {
+        "id": "am_michael",
+        "name": "Michael · US"
+      },
+      {
+        "id": "bf_emma",
+        "name": "Emma · UK"
+      },
+      {
+        "id": "bm_george",
+        "name": "George · UK"
+      }
+    ],
+    "files": [
+      {
+        "path": "config.json",
+        "size": 44,
+        "algorithm": "git-sha1",
+        "hash": "790faf216e7e3f490e71e8bc80df79ed8941101c"
+      },
+      {
+        "path": "onnx/model_quantized.onnx",
+        "size": 92361116,
+        "algorithm": "sha256",
+        "hash": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 3497,
+        "algorithm": "git-sha1",
+        "hash": "4280f55fc1c32211bc9bb4d55545759a00054ecd"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 113,
+        "algorithm": "git-sha1",
+        "hash": "5c81e9a3a06db9139900d6ee5b60e8bb701ccb0b"
+      },
+      {
+        "path": "voices/af_heart.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b"
+      },
+      {
+        "path": "voices/am_michael.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "1d1f21dd8da39c30705cd4c75d039d265e9bc4a2a93ed09bc9e1b1225eb95ba1"
+      },
+      {
+        "path": "voices/bf_emma.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "669fe0647f9dd04fcab92f1439a40eeb4c8b4ab1f82e4996fe3d918ce4a63b73"
+      },
+      {
+        "path": "voices/bm_george.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "c4b235a4c1f2cd3b939fed08b899ce9385638b763f7b73a59616c4fc9bd6c9bc"
+      }
+    ]
+  },
+  {
+    "id": "kokoro-fp32",
+    "name": "Kokoro Full Precision",
+    "task": "tts",
+    "tier": "Quality",
+    "memoryGB": 3,
+    "dtype": "fp32",
+    "license": "Apache-2.0",
+    "repo": "onnx-community/Kokoro-82M-v1.0-ONNX",
+    "revision": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Full precision natural English speech. Runs locally on CPU.",
+    "sizeMB": 328,
+    "voices": [
+      {
+        "id": "af_heart",
+        "name": "Heart · US"
+      },
+      {
+        "id": "am_michael",
+        "name": "Michael · US"
+      },
+      {
+        "id": "bf_emma",
+        "name": "Emma · UK"
+      },
+      {
+        "id": "bm_george",
+        "name": "George · UK"
+      }
+    ],
+    "files": [
+      {
+        "path": "config.json",
+        "size": 44,
+        "algorithm": "git-sha1",
+        "hash": "790faf216e7e3f490e71e8bc80df79ed8941101c"
+      },
+      {
+        "path": "onnx/model.onnx",
+        "size": 325532232,
+        "algorithm": "sha256",
+        "hash": "8fbea51ea711f2af382e88c833d9e288c6dc82ce5e98421ea61c058ce21a34cb"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 3497,
+        "algorithm": "git-sha1",
+        "hash": "4280f55fc1c32211bc9bb4d55545759a00054ecd"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 113,
+        "algorithm": "git-sha1",
+        "hash": "5c81e9a3a06db9139900d6ee5b60e8bb701ccb0b"
+      },
+      {
+        "path": "voices/af_heart.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b"
+      },
+      {
+        "path": "voices/am_michael.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "1d1f21dd8da39c30705cd4c75d039d265e9bc4a2a93ed09bc9e1b1225eb95ba1"
+      },
+      {
+        "path": "voices/bf_emma.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "669fe0647f9dd04fcab92f1439a40eeb4c8b4ab1f82e4996fe3d918ce4a63b73"
+      },
+      {
+        "path": "voices/bm_george.bin",
+        "size": 522240,
+        "algorithm": "sha256",
+        "hash": "c4b235a4c1f2cd3b939fed08b899ce9385638b763f7b73a59616c4fc9bd6c9bc"
+      }
+    ]
+  },
+  {
+    "id": "supertonic-2",
+    "name": "Supertonic 2",
+    "task": "tts",
+    "engine": "supertonic",
+    "tier": "Balanced",
+    "memoryGB": 2,
+    "dtype": "fp32",
+    "license": "OpenRAIL-M",
+    "repo": "Supertone/supertonic-2",
+    "revision": "75e6727618a02f323c720cba9478152d4bc16ca4",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Local CPU reading with ten voices. A compact alternative to Kokoro.",
+    "sizeMB": 268,
+    "voices": [
+      {
+        "id": "F1",
+        "name": "Female 1"
+      },
+      {
+        "id": "F2",
+        "name": "Female 2"
+      },
+      {
+        "id": "F3",
+        "name": "Female 3"
+      },
+      {
+        "id": "F4",
+        "name": "Female 4"
+      },
+      {
+        "id": "F5",
+        "name": "Female 5"
+      },
+      {
+        "id": "M1",
+        "name": "Male 1"
+      },
+      {
+        "id": "M2",
+        "name": "Male 2"
+      },
+      {
+        "id": "M3",
+        "name": "Male 3"
+      },
+      {
+        "id": "M4",
+        "name": "Male 4"
+      },
+      {
+        "id": "M5",
+        "name": "Male 5"
+      }
+    ],
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 15007,
+        "algorithm": "git-sha1",
+        "hash": "1e2cbe6cef94c8cdf3ed1fcebc0f5317ca7ad5a1"
+      },
+      {
+        "path": "config.json",
+        "size": 173,
+        "algorithm": "git-sha1",
+        "hash": "4ddb3586e337b0aee070a3d40c93e818e5a5778e"
+      },
+      {
+        "path": "onnx/duration_predictor.onnx",
+        "size": 1521526,
+        "algorithm": "sha256",
+        "hash": "6d556b3691165c364be91dc0bd894656b5949f5acd2750d8ec2f954010845011"
+      },
+      {
+        "path": "onnx/text_encoder.onnx",
+        "size": 27431318,
+        "algorithm": "sha256",
+        "hash": "dd5f535ed629f7df86071043e15f541ce1b2ab7f1bdbce4c7892b307bca79fa3"
+      },
+      {
+        "path": "onnx/tts.json",
+        "size": 8699,
+        "algorithm": "git-sha1",
+        "hash": "fc74c91dfb3fca9da1ac8891192d6c270bf50c75"
+      },
+      {
+        "path": "onnx/unicode_indexer.json",
+        "size": 262196,
+        "algorithm": "git-sha1",
+        "hash": "eadcae74101c242f07e40fcab98de57f29ad23b2"
+      },
+      {
+        "path": "onnx/vector_estimator.onnx",
+        "size": 132471364,
+        "algorithm": "sha256",
+        "hash": "105e9d66fd8756876b210a6b4aa03fc393b1eaca3a8dadcc8d9a3bc785c86a35"
+      },
+      {
+        "path": "onnx/vocoder.onnx",
+        "size": 101405066,
+        "algorithm": "sha256",
+        "hash": "19bd51f47a186069c752403518a40f7ea4c647455056d2511f7249691ecddf7c"
+      },
+      {
+        "path": "voice_styles/F1.json",
+        "size": 420050,
+        "algorithm": "git-sha1",
+        "hash": "318e17ebf767c6b7c830dbb686bbf913adf402d3"
+      },
+      {
+        "path": "voice_styles/F2.json",
+        "size": 420293,
+        "algorithm": "git-sha1",
+        "hash": "0568745d7f3ca36716aff2f19854af33cb440e36"
+      },
+      {
+        "path": "voice_styles/F3.json",
+        "size": 419887,
+        "algorithm": "git-sha1",
+        "hash": "418ed25d5d94a9984b5500482003dbe23e3c9992"
+      },
+      {
+        "path": "voice_styles/F4.json",
+        "size": 419642,
+        "algorithm": "git-sha1",
+        "hash": "a4b8289b64192c0bbc22d6d46540ce5a74af01a3"
+      },
+      {
+        "path": "voice_styles/F5.json",
+        "size": 419709,
+        "algorithm": "git-sha1",
+        "hash": "2fa2c32f765060e761e16b563c1e9b918e1e4a0b"
+      },
+      {
+        "path": "voice_styles/M1.json",
+        "size": 420510,
+        "algorithm": "git-sha1",
+        "hash": "fb17e7bc3cc7f5a4c4c5a2302f1f6d003a83f45a"
+      },
+      {
+        "path": "voice_styles/M2.json",
+        "size": 420285,
+        "algorithm": "git-sha1",
+        "hash": "9fa3aaa1bb82426d720dcf8ab736b5a25d17bc9f"
+      },
+      {
+        "path": "voice_styles/M3.json",
+        "size": 420005,
+        "algorithm": "git-sha1",
+        "hash": "faad6b73dc9ce4f4119a37dd39e42993c87eabbf"
+      },
+      {
+        "path": "voice_styles/M4.json",
+        "size": 419957,
+        "algorithm": "git-sha1",
+        "hash": "6e9d6e2ea54f66619545500e4733a917cbd39fa6"
+      },
+      {
+        "path": "voice_styles/M5.json",
+        "size": 419619,
+        "algorithm": "git-sha1",
+        "hash": "16f7f26487387556d9c9e054dcf0c63ad187e681"
+      }
+    ]
+  },
+  {
+    "id": "supertonic-3",
+    "name": "Supertonic 3",
+    "task": "tts",
+    "engine": "supertonic",
+    "tier": "Quality",
+    "memoryGB": 3,
+    "dtype": "fp32",
+    "license": "OpenRAIL-M",
+    "repo": "Supertone/supertonic-3",
+    "revision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Local CPU reading with ten voices. A larger Supertonic model; preview to compare voice quality and speed.",
+    "sizeMB": 402,
+    "voices": [
+      {
+        "id": "F1",
+        "name": "Female 1"
+      },
+      {
+        "id": "F2",
+        "name": "Female 2"
+      },
+      {
+        "id": "F3",
+        "name": "Female 3"
+      },
+      {
+        "id": "F4",
+        "name": "Female 4"
+      },
+      {
+        "id": "F5",
+        "name": "Female 5"
+      },
+      {
+        "id": "M1",
+        "name": "Male 1"
+      },
+      {
+        "id": "M2",
+        "name": "Male 2"
+      },
+      {
+        "id": "M3",
+        "name": "Male 3"
+      },
+      {
+        "id": "M4",
+        "name": "Male 4"
+      },
+      {
+        "id": "M5",
+        "name": "Male 5"
+      }
+    ],
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 15007,
+        "algorithm": "git-sha1",
+        "hash": "1e2cbe6cef94c8cdf3ed1fcebc0f5317ca7ad5a1"
+      },
+      {
+        "path": "config.json",
+        "size": 174,
+        "algorithm": "git-sha1",
+        "hash": "19c2e8b0aa701c1017ca22a22cd519354854e4b1"
+      },
+      {
+        "path": "onnx/duration_predictor.onnx",
+        "size": 3700147,
+        "algorithm": "sha256",
+        "hash": "c3eb91414d5ff8a7a239b7fe9e34e7e2bf8a8140d8375ffb14718b1c639325db"
+      },
+      {
+        "path": "onnx/text_encoder.onnx",
+        "size": 36416150,
+        "algorithm": "sha256",
+        "hash": "c7befd5ea8c3119769e8a6c1486c4edc6a3bc8365c67621c881bbb774b9902ff"
+      },
+      {
+        "path": "onnx/tts.json",
+        "size": 8253,
+        "algorithm": "git-sha1",
+        "hash": "28575b0793c92607a0f0a292550df9bd17709a79"
+      },
+      {
+        "path": "onnx/unicode_indexer.json",
+        "size": 277676,
+        "algorithm": "git-sha1",
+        "hash": "3aaf4d33024aff0be455633c24b3636b3a810150"
+      },
+      {
+        "path": "onnx/vector_estimator.onnx",
+        "size": 256534781,
+        "algorithm": "sha256",
+        "hash": "883ac868ea0275ef0e991524dc64f16b3c0376efd7c320af6b53f5b780d7c61c"
+      },
+      {
+        "path": "onnx/vocoder.onnx",
+        "size": 101424195,
+        "algorithm": "sha256",
+        "hash": "085de76dd8e8d5836d6ca66826601f615939218f90e519f70ee8a36ed2a4c4ba"
+      },
+      {
+        "path": "voice_styles/F1.json",
+        "size": 292046,
+        "algorithm": "git-sha1",
+        "hash": "421365f307ed1535d8da16845031d0e9fa3e60c5"
+      },
+      {
+        "path": "voice_styles/F2.json",
+        "size": 292423,
+        "algorithm": "git-sha1",
+        "hash": "b09a3a433df8a4856d1d7d64736a56ddf37a4ea3"
+      },
+      {
+        "path": "voice_styles/F3.json",
+        "size": 290794,
+        "algorithm": "git-sha1",
+        "hash": "a366f94c77c4b440404071f1a52bed3ccf83a5ff"
+      },
+      {
+        "path": "voice_styles/F4.json",
+        "size": 291808,
+        "algorithm": "git-sha1",
+        "hash": "39c78a52795320c6101b7eaf984c0e2352fbdc18"
+      },
+      {
+        "path": "voice_styles/F5.json",
+        "size": 291479,
+        "algorithm": "git-sha1",
+        "hash": "06983f8816ad00a8eeb7efd37a33d457587e16f8"
+      },
+      {
+        "path": "voice_styles/M1.json",
+        "size": 291748,
+        "algorithm": "git-sha1",
+        "hash": "bddfff85a7c4c140c11620bd7005d86681dccdac"
+      },
+      {
+        "path": "voice_styles/M2.json",
+        "size": 292055,
+        "algorithm": "git-sha1",
+        "hash": "602ff6c4d6d48cdb71c37461f7c175d71fe8b34b"
+      },
+      {
+        "path": "voice_styles/M3.json",
+        "size": 290198,
+        "algorithm": "git-sha1",
+        "hash": "000b60436b77619b933fdc33628ad737595e6794"
+      },
+      {
+        "path": "voice_styles/M4.json",
+        "size": 291522,
+        "algorithm": "git-sha1",
+        "hash": "aae253ae81185fa06a6469c3f1cdff04ed121ddf"
+      },
+      {
+        "path": "voice_styles/M5.json",
+        "size": 291469,
+        "algorithm": "git-sha1",
+        "hash": "0536b252698830f8536c077edcb94e1ce4768ab6"
+      }
+    ]
+  },
+  {
+    "id": "flan-t5-small",
+    "name": "FLAN-T5 Small",
+    "task": "rewrite",
+    "tier": "Experimental",
+    "memoryGB": 2,
+    "dtype": "q8",
+    "license": "Apache-2.0",
+    "repo": "Xenova/flan-t5-small",
+    "revision": "311454e83bc784267fd7eef5940ee854144abbec",
+    "devices": [
+      "cpu"
+    ],
+    "description": "Optional local rewrite suggestions; may change meaning. Always review before inserting.",
+    "sizeMB": 99,
+    "files": [
+      {
+        "path": "config.json",
+        "size": 1532,
+        "algorithm": "git-sha1",
+        "hash": "be9d2e1a72267d5fb4ccb44d0fa59ee7336cb31c"
+      },
+      {
+        "path": "generation_config.json",
+        "size": 147,
+        "algorithm": "git-sha1",
+        "hash": "b6ea5d3139039b6271932361ba30b7c5b979fe26"
+      },
+      {
+        "path": "onnx/decoder_model_merged_quantized.onnx",
+        "size": 59339331,
+        "algorithm": "sha256",
+        "hash": "73e2e942503221d7844715a8d824f68d8a2e878483f1c923849c177f0c441df1"
+      },
+      {
+        "path": "onnx/encoder_model_quantized.onnx",
+        "size": 35759127,
+        "algorithm": "sha256",
+        "hash": "968ce399b8dcdfd4c36833db51e9f78f327f7272ee9e2777fc2b3c8693208e90"
+      },
+      {
+        "path": "special_tokens_map.json",
+        "size": 2201,
+        "algorithm": "git-sha1",
+        "hash": "2c19eb6e3b583f52d34b903b5978d3d30b6b7682"
+      },
+      {
+        "path": "spiece.model",
+        "size": 791656,
+        "algorithm": "sha256",
+        "hash": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86"
+      },
+      {
+        "path": "tokenizer.json",
+        "size": 2422164,
+        "algorithm": "git-sha1",
+        "hash": "188313c03c392a12933ea908d0a8b73b043236aa"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "size": 2349,
+        "algorithm": "git-sha1",
+        "hash": "e99a0d1df1d854da2da3e68e80a83ee379dff248"
+      }
+    ]
+  }
+]

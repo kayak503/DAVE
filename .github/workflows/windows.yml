@@ -1,0 +1,28 @@
+name: Native Windows build
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+jobs:
+  package:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.425'
+      - name: Test native recognition subprocess and cancellation
+        run: node --test tests/metal.test.mjs tests/engine-acceleration.test.mjs
+      - name: Build native self-contained app and verified runtimes
+        run: node windows/scripts/build-check.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LocalVoice-Windows-1.0.0-x64
+          path: |
+            release/LocalVoice-Windows-1.0.0-x64.zip
+            release/LocalVoice-Windows-1.0.0-x64.zip.sha256
+  # GPU validation is deliberately separate: hosted Windows runners do not have NVIDIA GPUs.
+  # Run node windows/scripts/runtime-check.mjs on a Windows NVIDIA machine with the Tiny GPU model downloaded.

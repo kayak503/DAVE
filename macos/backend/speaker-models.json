@@ -1,0 +1,71 @@
+[
+  {
+    "id": "compact",
+    "name": "Compact \u00b7 WeSpeaker ResNet34",
+    "directory": "speaker-diarization",
+    "sizeMB": 32.523463,
+    "description": "Faster local speaker identification. Best with clear, separate voices.",
+    "assets": [
+      {
+        "name": "segmentation.onnx",
+        "size": 5992913,
+        "sha256": "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079",
+        "url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/model.onnx"
+      },
+      {
+        "name": "embedding.onnx",
+        "size": 26530550,
+        "sha256": "e9848563da86f263117134dfd7ad63c92355b37de492b55e325400c9d9c39012",
+        "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/wespeaker_en_voxceleb_resnet34_LM.onnx"
+      }
+    ],
+    "matchThreshold": 0.55,
+    "clusteringThreshold": 0.5
+  },
+  {
+    "id": "accurate",
+    "name": "Larger \u00b7 WeSpeaker ResNet152",
+    "directory": "speaker-diarization-accurate",
+    "sizeMB": 85.151383,
+    "description": "Larger English speaker model for group recordings. Slower; similar voices, roleplay and overlapping speech can still be confused.",
+    "assets": [
+      {
+        "name": "segmentation.onnx",
+        "size": 5992913,
+        "sha256": "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079",
+        "url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/model.onnx"
+      },
+      {
+        "name": "embedding.onnx",
+        "size": 79158470,
+        "sha256": "3e1c2c7a02097bdddc27c1cf7382237399abdc3b5b682e59455830673c6686e7",
+        "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/wespeaker_en_voxceleb_resnet152_LM.onnx"
+      }
+    ],
+    "matchThreshold": 0.75,
+    "clusteringThreshold": 0.25
+  },
+  {
+    "id": "precision",
+    "name": "Largest \u00b7 WeSpeaker ResNet293",
+    "directory": "speaker-diarization-precision",
+    "sizeMB": 120.32944,
+    "description": "Our largest English speaker model. More compute for group recordings; overlapping voices and character voices can still be confused.",
+    "assets": [
+      {
+        "name": "segmentation.onnx",
+        "size": 5992913,
+        "sha256": "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079",
+        "url": "https://huggingface.co/csukuangfj/sherpa-onnx-pyannote-segmentation-3-0/resolve/9403a6902bb58e3d5ae8c7e77c3422de279db2e0/model.onnx"
+      },
+      {
+        "name": "embedding.onnx",
+        "size": 114336527,
+        "sha256": "f65dbc820e534eef64ae12d1e289e20244d60e60f7f00d7b092092b1c458be2e",
+        "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/wespeaker_en_voxceleb_resnet293_LM.onnx"
+      }
+    ],
+    "matchThreshold": 0.84,
+    "clusteringThreshold": 0.16
+  }
+]

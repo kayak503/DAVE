@@ -1,0 +1,137 @@
+[
+  {
+    "id": "whisper-tiny-metal",
+    "variantOf": "whisper-tiny",
+    "name": "Whisper tiny • Metal weights",
+    "engine": "whisper-metal",
+    "task": "stt",
+    "tier": "GPU",
+    "memoryGB": 1,
+    "dtype": "fp16",
+    "license": "MIT",
+    "repo": "ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "devices": [
+      "cpu",
+      "gpu"
+    ],
+    "description": "Companion weights for local Apple Metal recognition.",
+    "sizeMB": 78,
+    "files": [
+      {
+        "path": "ggml-tiny.en.bin",
+        "size": 77704715,
+        "algorithm": "sha256",
+        "hash": "921e4cf8686fdd993dcd081a5da5b6c365bfde1162e72b08d75ac75289920b1f"
+      }
+    ]
+  },
+  {
+    "id": "whisper-base-metal",
+    "variantOf": "whisper-base",
+    "name": "Whisper base • Metal weights",
+    "engine": "whisper-metal",
+    "task": "stt",
+    "tier": "GPU",
+    "memoryGB": 1,
+    "dtype": "fp16",
+    "license": "MIT",
+    "repo": "ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "devices": [
+      "cpu",
+      "gpu"
+    ],
+    "description": "Companion weights for local Apple Metal recognition.",
+    "sizeMB": 148,
+    "files": [
+      {
+        "path": "ggml-base.en.bin",
+        "size": 147964211,
+        "algorithm": "sha256",
+        "hash": "a03779c86df3323075f5e796cb2ce5029f00ec8869eee3fdfb897afe36c6d002"
+      }
+    ]
+  },
+  {
+    "id": "whisper-small-metal",
+    "variantOf": "whisper-small",
+    "name": "Whisper small • Metal weights",
+    "engine": "whisper-metal",
+    "task": "stt",
+    "tier": "GPU",
+    "memoryGB": 2,
+    "dtype": "fp16",
+    "license": "MIT",
+    "repo": "ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "devices": [
+      "cpu",
+      "gpu"
+    ],
+    "description": "Companion weights for local Apple Metal recognition.",
+    "sizeMB": 488,
+    "files": [
+      {
+        "path": "ggml-small.en.bin",
+        "size": 487614201,
+        "algorithm": "sha256",
+        "hash": "c6138d6d58ecc8322097e0f987c32f1be8bb0a18532a3f88f734d1bbf9c41e5d"
+      }
+    ]
+  },
+  {
+    "id": "whisper-medium-metal",
+    "variantOf": "whisper-medium",
+    "name": "Whisper medium • Metal weights",
+    "engine": "whisper-metal",
+    "task": "stt",
+    "tier": "GPU",
+    "memoryGB": 4,
+    "dtype": "fp16",
+    "license": "MIT",
+    "repo": "ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "devices": [
+      "cpu",
+      "gpu"
+    ],
+    "description": "Companion weights for local Apple Metal recognition.",
+    "sizeMB": 1534,
+    "files": [
+      {
+        "path": "ggml-medium.en.bin",
+        "size": 1533774781,
+        "algorithm": "sha256",
+        "hash": "cc37e93478338ec7700281a7ac30a10128929eb8f427dda2e865faa8f6da4356"
+      }
+    ]
+  },
+  {
+    "id": "whisper-large-turbo-metal",
+    "variantOf": "whisper-large-turbo",
+    "name": "Whisper large-turbo • Metal weights",
+    "engine": "whisper-metal",
+    "task": "stt",
+    "tier": "GPU",
+    "memoryGB": 4,
+    "dtype": "fp16",
+    "license": "MIT",
+    "repo": "ggerganov/whisper.cpp",
+    "revision": "5359861c739e955e79d9a303bcbc70fb988958b1",
+    "devices": [
+      "cpu",
+      "gpu"
+    ],
+    "description": "Companion weights for local Apple Metal recognition.",
+    "sizeMB": 1625,
+    "files": [
+      {
+        "path": "ggml-large-v3-turbo.bin",
+        "size": 1624555275,
+        "algorithm": "sha256",
+        "hash": "1fc70f774d38eb169993ac391eea357ef47c88757ef72ee5943879b7e8e2bc69"
+      }
+    ]
+  }
+]

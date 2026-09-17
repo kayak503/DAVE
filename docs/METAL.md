@@ -1,0 +1,17 @@
+# Native Whisper GPU recognition
+
+The macOS app bundles a statically linked `whisper-cli` from the official [whisper.cpp](https://github.com/ggml-org/whisper.cpp/tree/2eeeba56e9edd762b4b38467bab96c2517163158) v1.8.3 source. It uses Apple Metal for supported Whisper computation and CPU preprocessing. The CLI is linked only against macOS system libraries. Metal shader source is embedded and compiled at runtime, so the app does not need Xcode, Homebrew, Python, or an external Metal compiler installed on the user's computer.
+
+`node macos/scripts/build-metal.mjs` downloads SHA256-pinned source and official CMake 3.31.6 into `.cache/metal-build`, verifies both, builds static libraries, and produces `.cache/metal-build/build/bin/whisper-cli`. It requires an Apple Silicon Mac with Apple Command Line Tools. The native packaging step copies and signs this executable, retains `macos/metal/LICENSE-whisper.txt`, and sets `LOCALVOICE_WHISPER_BIN` to the bundled executable. No source compilation or runtime download occurs during inference.
+
+`core/metal-catalog.json` lists five companion GGML FP16 weight files (Tiny English, Base English, Small English, Medium English, Large v3 Turbo), pinned to immutable Hugging Face revision `5359861c739e955e79d9a303bcbc70fb988958b1` with their SHA256 digests. These are separate downloads from the older ONNX CPU weights. Their IDs map to the ordinary model selector with `variantOf`. Tiny is 78 MB, Small 488 MB; larger weights cost more memory and storage.
+
+`createWhisperMetal(modelDirectory, model, {device})` accepts `gpu` or `cpu`; inference accepts 16 kHz mono Float32 audio bounded to five minutes per call. It returns normalized text, optional segment timestamps, and **effective** acceleration metadata. Metal is reported only when the subprocess says `whisper_backend_init_gpu: using Metal backend`, not merely when Metal was compiled in. A CPU fallback is reported as CPU; the caller must reject this for an explicit GPU preference, or disclose it in Automatic mode. `cancel()` terminates active work and keeps the instance reusable. `dispose()` terminates work and prevents reuse. SIGTERM escalates to SIGKILL after one second, and the parent process exit handler kills any live child. Private temporary audio/results are removed after success, failure, or cancellation.
+
+The CLI reloads model weights per chunk. This makes cancellation reliable and memory ownership simple, but incurs load overhead, particularly for large models. First GPU use also compiles embedded shaders. This implementation does not promise GPU will beat CPU for every small model or short recording. Speaker clustering remains a separate model; GPU Whisper does not itself identify speakers.
+
+Validation:
+
+- `node --test tests/metal.test.mjs`: backend truthfulness, WAV validation, timestamp validation, immutable catalog, active cancellation, reuse, and disposed runtime checks.
+- `node scripts/metal-check.mjs`: actual Tiny and Small CPU/Metal inference, known words from both speakers, timestamp bounds, and real runtime cancellation. Requires pinned weights in `.cache/metal-models/<companion-id>` and the existing public `test-results/transcription-two-speakers.wav` fixture.
+- On the development M4 Pro, one warm-cache 16.6-second recording run took Tiny CPU 0.56 s / Metal 0.55 s and Small CPU 2.07 s / Metal 1.07 s. These include subprocess/model startup and are observations, not a cross-device guarantee. The test prints fresh measurements each run.

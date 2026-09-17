@@ -1,0 +1,30 @@
+name: Native Mac verification and package
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check:repository
+      - run: npm run test:core
+      - run: node macos/scripts/unit-check.mjs
+      - run: node macos/scripts/system-check.mjs
+      - run: node macos/scripts/transcription-check.mjs
+      - run: node macos/scripts/build.mjs
+      - run: node macos/scripts/archive.mjs
+      - run: node macos/scripts/dmg.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Local-Voice-1.0.0-macOS
+          path: |
+            release/*.zip
+            release/*.dmg
+          if-no-files-found: error

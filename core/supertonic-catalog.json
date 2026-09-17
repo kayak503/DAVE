@@ -1,0 +1,336 @@
+[
+  {
+    "id": "supertonic-2",
+    "name": "Supertonic 2",
+    "task": "tts",
+    "engine": "supertonic",
+    "tier": "Balanced",
+    "memoryGB": 2,
+    "dtype": "fp32",
+    "license": "OpenRAIL-M",
+    "repo": "Supertone/supertonic-2",
+    "revision": "75e6727618a02f323c720cba9478152d4bc16ca4",
+    "devices": ["cpu"],
+    "description": "Local CPU reading with ten voices. A compact alternative to Kokoro.",
+    "sizeMB": 268,
+    "voices": [
+      {
+        "id": "F1",
+        "name": "Female 1"
+      },
+      {
+        "id": "F2",
+        "name": "Female 2"
+      },
+      {
+        "id": "F3",
+        "name": "Female 3"
+      },
+      {
+        "id": "F4",
+        "name": "Female 4"
+      },
+      {
+        "id": "F5",
+        "name": "Female 5"
+      },
+      {
+        "id": "M1",
+        "name": "Male 1"
+      },
+      {
+        "id": "M2",
+        "name": "Male 2"
+      },
+      {
+        "id": "M3",
+        "name": "Male 3"
+      },
+      {
+        "id": "M4",
+        "name": "Male 4"
+      },
+      {
+        "id": "M5",
+        "name": "Male 5"
+      }
+    ],
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 15007,
+        "algorithm": "git-sha1",
+        "hash": "1e2cbe6cef94c8cdf3ed1fcebc0f5317ca7ad5a1"
+      },
+      {
+        "path": "config.json",
+        "size": 173,
+        "algorithm": "git-sha1",
+        "hash": "4ddb3586e337b0aee070a3d40c93e818e5a5778e"
+      },
+      {
+        "path": "onnx/duration_predictor.onnx",
+        "size": 1521526,
+        "algorithm": "sha256",
+        "hash": "6d556b3691165c364be91dc0bd894656b5949f5acd2750d8ec2f954010845011"
+      },
+      {
+        "path": "onnx/text_encoder.onnx",
+        "size": 27431318,
+        "algorithm": "sha256",
+        "hash": "dd5f535ed629f7df86071043e15f541ce1b2ab7f1bdbce4c7892b307bca79fa3"
+      },
+      {
+        "path": "onnx/tts.json",
+        "size": 8699,
+        "algorithm": "git-sha1",
+        "hash": "fc74c91dfb3fca9da1ac8891192d6c270bf50c75"
+      },
+      {
+        "path": "onnx/unicode_indexer.json",
+        "size": 262196,
+        "algorithm": "git-sha1",
+        "hash": "eadcae74101c242f07e40fcab98de57f29ad23b2"
+      },
+      {
+        "path": "onnx/vector_estimator.onnx",
+        "size": 132471364,
+        "algorithm": "sha256",
+        "hash": "105e9d66fd8756876b210a6b4aa03fc393b1eaca3a8dadcc8d9a3bc785c86a35"
+      },
+      {
+        "path": "onnx/vocoder.onnx",
+        "size": 101405066,
+        "algorithm": "sha256",
+        "hash": "19bd51f47a186069c752403518a40f7ea4c647455056d2511f7249691ecddf7c"
+      },
+      {
+        "path": "voice_styles/F1.json",
+        "size": 420050,
+        "algorithm": "git-sha1",
+        "hash": "318e17ebf767c6b7c830dbb686bbf913adf402d3"
+      },
+      {
+        "path": "voice_styles/F2.json",
+        "size": 420293,
+        "algorithm": "git-sha1",
+        "hash": "0568745d7f3ca36716aff2f19854af33cb440e36"
+      },
+      {
+        "path": "voice_styles/F3.json",
+        "size": 419887,
+        "algorithm": "git-sha1",
+        "hash": "418ed25d5d94a9984b5500482003dbe23e3c9992"
+      },
+      {
+        "path": "voice_styles/F4.json",
+        "size": 419642,
+        "algorithm": "git-sha1",
+        "hash": "a4b8289b64192c0bbc22d6d46540ce5a74af01a3"
+      },
+      {
+        "path": "voice_styles/F5.json",
+        "size": 419709,
+        "algorithm": "git-sha1",
+        "hash": "2fa2c32f765060e761e16b563c1e9b918e1e4a0b"
+      },
+      {
+        "path": "voice_styles/M1.json",
+        "size": 420510,
+        "algorithm": "git-sha1",
+        "hash": "fb17e7bc3cc7f5a4c4c5a2302f1f6d003a83f45a"
+      },
+      {
+        "path": "voice_styles/M2.json",
+        "size": 420285,
+        "algorithm": "git-sha1",
+        "hash": "9fa3aaa1bb82426d720dcf8ab736b5a25d17bc9f"
+      },
+      {
+        "path": "voice_styles/M3.json",
+        "size": 420005,
+        "algorithm": "git-sha1",
+        "hash": "faad6b73dc9ce4f4119a37dd39e42993c87eabbf"
+      },
+      {
+        "path": "voice_styles/M4.json",
+        "size": 419957,
+        "algorithm": "git-sha1",
+        "hash": "6e9d6e2ea54f66619545500e4733a917cbd39fa6"
+      },
+      {
+        "path": "voice_styles/M5.json",
+        "size": 419619,
+        "algorithm": "git-sha1",
+        "hash": "16f7f26487387556d9c9e054dcf0c63ad187e681"
+      }
+    ]
+  },
+  {
+    "id": "supertonic-3",
+    "name": "Supertonic 3",
+    "task": "tts",
+    "engine": "supertonic",
+    "tier": "Quality",
+    "memoryGB": 3,
+    "dtype": "fp32",
+    "license": "OpenRAIL-M",
+    "repo": "Supertone/supertonic-3",
+    "revision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
+    "devices": ["cpu"],
+    "description": "Local CPU reading with ten voices. A larger Supertonic model; preview to compare voice quality and speed.",
+    "sizeMB": 402,
+    "voices": [
+      {
+        "id": "F1",
+        "name": "Female 1"
+      },
+      {
+        "id": "F2",
+        "name": "Female 2"
+      },
+      {
+        "id": "F3",
+        "name": "Female 3"
+      },
+      {
+        "id": "F4",
+        "name": "Female 4"
+      },
+      {
+        "id": "F5",
+        "name": "Female 5"
+      },
+      {
+        "id": "M1",
+        "name": "Male 1"
+      },
+      {
+        "id": "M2",
+        "name": "Male 2"
+      },
+      {
+        "id": "M3",
+        "name": "Male 3"
+      },
+      {
+        "id": "M4",
+        "name": "Male 4"
+      },
+      {
+        "id": "M5",
+        "name": "Male 5"
+      }
+    ],
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 15007,
+        "algorithm": "git-sha1",
+        "hash": "1e2cbe6cef94c8cdf3ed1fcebc0f5317ca7ad5a1"
+      },
+      {
+        "path": "config.json",
+        "size": 174,
+        "algorithm": "git-sha1",
+        "hash": "19c2e8b0aa701c1017ca22a22cd519354854e4b1"
+      },
+      {
+        "path": "onnx/duration_predictor.onnx",
+        "size": 3700147,
+        "algorithm": "sha256",
+        "hash": "c3eb91414d5ff8a7a239b7fe9e34e7e2bf8a8140d8375ffb14718b1c639325db"
+      },
+      {
+        "path": "onnx/text_encoder.onnx",
+        "size": 36416150,
+        "algorithm": "sha256",
+        "hash": "c7befd5ea8c3119769e8a6c1486c4edc6a3bc8365c67621c881bbb774b9902ff"
+      },
+      {
+        "path": "onnx/tts.json",
+        "size": 8253,
+        "algorithm": "git-sha1",
+        "hash": "28575b0793c92607a0f0a292550df9bd17709a79"
+      },
+      {
+        "path": "onnx/unicode_indexer.json",
+        "size": 277676,
+        "algorithm": "git-sha1",
+        "hash": "3aaf4d33024aff0be455633c24b3636b3a810150"
+      },
+      {
+        "path": "onnx/vector_estimator.onnx",
+        "size": 256534781,
+        "algorithm": "sha256",
+        "hash": "883ac868ea0275ef0e991524dc64f16b3c0376efd7c320af6b53f5b780d7c61c"
+      },
+      {
+        "path": "onnx/vocoder.onnx",
+        "size": 101424195,
+        "algorithm": "sha256",
+        "hash": "085de76dd8e8d5836d6ca66826601f615939218f90e519f70ee8a36ed2a4c4ba"
+      },
+      {
+        "path": "voice_styles/F1.json",
+        "size": 292046,
+        "algorithm": "git-sha1",
+        "hash": "421365f307ed1535d8da16845031d0e9fa3e60c5"
+      },
+      {
+        "path": "voice_styles/F2.json",
+        "size": 292423,
+        "algorithm": "git-sha1",
+        "hash": "b09a3a433df8a4856d1d7d64736a56ddf37a4ea3"
+      },
+      {
+        "path": "voice_styles/F3.json",
+        "size": 290794,
+        "algorithm": "git-sha1",
+        "hash": "a366f94c77c4b440404071f1a52bed3ccf83a5ff"
+      },
+      {
+        "path": "voice_styles/F4.json",
+        "size": 291808,
+        "algorithm": "git-sha1",
+        "hash": "39c78a52795320c6101b7eaf984c0e2352fbdc18"
+      },
+      {
+        "path": "voice_styles/F5.json",
+        "size": 291479,
+        "algorithm": "git-sha1",
+        "hash": "06983f8816ad00a8eeb7efd37a33d457587e16f8"
+      },
+      {
+        "path": "voice_styles/M1.json",
+        "size": 291748,
+        "algorithm": "git-sha1",
+        "hash": "bddfff85a7c4c140c11620bd7005d86681dccdac"
+      },
+      {
+        "path": "voice_styles/M2.json",
+        "size": 292055,
+        "algorithm": "git-sha1",
+        "hash": "602ff6c4d6d48cdb71c37461f7c175d71fe8b34b"
+      },
+      {
+        "path": "voice_styles/M3.json",
+        "size": 290198,
+        "algorithm": "git-sha1",
+        "hash": "000b60436b77619b933fdc33628ad737595e6794"
+      },
+      {
+        "path": "voice_styles/M4.json",
+        "size": 291522,
+        "algorithm": "git-sha1",
+        "hash": "aae253ae81185fa06a6469c3f1cdff04ed121ddf"
+      },
+      {
+        "path": "voice_styles/M5.json",
+        "size": 291469,
+        "algorithm": "git-sha1",
+        "hash": "0536b252698830f8536c077edcb94e1ce4768ab6"
+      }
+    ]
+  }
+]

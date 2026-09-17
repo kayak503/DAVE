@@ -1,0 +1,11 @@
+import {spawnSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import {mkdir} from 'node:fs/promises';
+await mkdir('.cache/native-build',{recursive:true});
+const exe=path.resolve('.cache/native-build/AudioTests');
+const compile=spawnSync('xcrun',['swiftc','-swift-version','5','-module-cache-path','.cache/native-build/modules','macos/Sources/InteractionState.swift','macos/Sources/LocalSpeech.swift','macos/Sources/Transcription.swift','macos/Tests/AudioTests.swift','-o',exe],{encoding:'utf8'});
+assert.equal(compile.status,0,compile.stderr);
+const result=spawnSync(exe,[],{env:{...process.env,LOCALVOICE_NODE:process.execPath,LOCALVOICE_BACKEND:path.resolve('macos/backend/service.mjs'),LOCALVOICE_MODELS:path.resolve('.cache/models')},encoding:'utf8',timeout:120000});
+process.stdout.write(result.stdout||'');process.stderr.write(result.stderr||'');
+assert.equal(result.status,0,result.error?.message||result.stderr);assert.match(result.stdout,/NATIVE_AUDIO_OK/);

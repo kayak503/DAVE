@@ -1,0 +1,41 @@
+{
+  "name": "home-auditory-interface",
+  "productName": "Local Voice",
+  "version": "1.0.0",
+  "description": "Private local reading, dictation and audio-file transcription for Mac and Windows",
+  "type": "module",
+  "author": "Home Auditory Interface contributors",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "open \"release/native/Local Voice.app\"",
+    "test": "node macos/scripts/unit-check.mjs && node macos/scripts/system-check.mjs && node macos/scripts/interaction-check.mjs && node macos/scripts/transcription-check.mjs",
+    "check": "npm test && node macos/scripts/speech-check.mjs && node macos/scripts/audio-check.mjs && npm run test:transcription-backend && npm run test:transcription-real && npm run test:transcription-playback",
+    "test:smoke": "node scripts/smoke.mjs",
+    "pack": "node macos/scripts/build.mjs",
+    "dist": "node macos/scripts/build.mjs && node macos/scripts/archive.mjs && node macos/scripts/dmg.mjs",
+    "models:smoke": "node scripts/install-smoke-models.mjs",
+    "build:native": "node macos/scripts/build.mjs",
+    "test:package": "node macos/scripts/package-check.mjs",
+    "format": "prettier --write \"{core,scripts,tests,macos/backend,macos/scripts,windows/scripts}/**/*.{mjs,json}\" package.json",
+    "format:check": "prettier --check \"{core,scripts,tests,macos/backend,macos/scripts,windows/scripts}/**/*.{mjs,json}\" package.json",
+    "test:audio": "node macos/scripts/audio-check.mjs",
+    "test:speech": "node macos/scripts/speech-check.mjs",
+    "test:interactions": "node macos/scripts/interaction-check.mjs",
+    "test:transcription-backend": "node --test macos/backend/transcription.test.mjs && node macos/scripts/transcription-backend-check.mjs",
+    "test:transcription": "node macos/scripts/transcription-check.mjs",
+    "test:transcription-real": "node macos/scripts/transcription-check.mjs --real",
+    "test:transcription-playback": "node macos/scripts/transcription-check.mjs --playback",
+    "install:mac": "bash macos/scripts/install.sh",
+    "test:core": "node --test tests/*.test.mjs macos/backend/transcription.test.mjs",
+    "check:repository": "node scripts/repository-check.mjs",
+    "build:windows": "node windows/scripts/build-check.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.8.1",
+    "kokoro-js": "1.2.1",
+    "sherpa-onnx-node": "1.13.8"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
