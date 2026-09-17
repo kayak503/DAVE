@@ -1,13 +1,13 @@
 # Local Supertonic reading models
 
-Local Voice supports two distinct CPU ONNX reading models from Supertone:
+DAVE supports two distinct CPU ONNX reading models from Supertone:
 
 | Model                                                         | Pinned revision                            | Download | Voices       |
 | ------------------------------------------------------------- | ------------------------------------------ | -------- | ------------ |
 | [Supertonic 2](https://huggingface.co/Supertone/supertonic-2) | `75e6727618a02f323c720cba9478152d4bc16ca4` | 268 MB   | F1–F5, M1–M5 |
 | [Supertonic 3](https://huggingface.co/Supertone/supertonic-3) | `3cadd1ee6394adea1bd021217a0e650ede09a323` | 402 MB   | F1–F5, M1–M5 |
 
-These are alternatives to Kokoro, not guarantees of a universally better voice. Supertonic 3 uses a larger network. Preview voices on your machine to compare pronunciation and speed. Local Voice currently uses English language tags for both models. The 10 voice styles are included in each model download; selecting another style does not require a separate download.
+These are alternatives to Kokoro, not guarantees of a universally better voice. Supertonic 3 uses a larger network. Preview voices on your machine to compare pronunciation and speed. DAVE currently uses English language tags for both models. The 10 voice styles are included in each model download; selecting another style does not require a separate download.
 
 The manifest includes immutable revisions, byte sizes, and SHA-256 hashes for ONNX assets; Git blob SHA-1 hashes cover ordinary repository files. Installation includes the models' OpenRAIL-M license. The runtime is adapted from Supertone's [official MIT-licensed Node implementation](https://github.com/supertone-inc/supertonic/blob/main/nodejs/helper.js), with attribution and the full license included in its source.
 

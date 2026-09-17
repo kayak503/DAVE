@@ -1,6 +1,6 @@
 # Development and verification
 
-The [main README](../README.md) is the installation and user guide for Local Voice 1.0.0. This document replaces the development-version release notes and obsolete implementation plans.
+The [main README](../README.md) is the installation and user guide for DAVE 1.0.0. This document replaces the development-version release notes and obsolete implementation plans.
 
 ## Source layout
 
@@ -57,7 +57,7 @@ node macos/scripts/dmg.mjs
 node scripts/release-check.mjs
 ```
 
-Output: `release/native/Local Voice.app`, a ZIP, and a DMG named with the package version and CPU architecture. The backend dependency directory is rebuilt from the current production dependency graph so removed packages cannot linger in a bundle. The build verifies its code signature. Local ad-hoc signing is not Developer ID signing or notarization; permission grants can become stale after a rebuild. Apple Silicon Metal builds use pinned whisper.cpp and CMake downloads. Intel GPU execution is not claimed.
+Output: `release/native/DAVE.app`, a ZIP, and a DMG named with the package version and CPU architecture. The backend dependency directory is rebuilt from the current production dependency graph so removed packages cannot linger in a bundle. The build verifies its code signature. Local ad-hoc signing is not Developer ID signing or notarization; permission grants can become stale after a rebuild. Apple Silicon Metal builds use pinned whisper.cpp and CMake downloads. Intel GPU execution is not claimed.
 
 ## Package Windows
 
@@ -65,7 +65,7 @@ Output: `release/native/Local Voice.app`, a ZIP, and a DMG named with the packag
 npm run build:windows
 ```
 
-This runs portable C# tests, publishes the self-contained Windows x64 app, installs locked Windows native inference dependencies, verifies pinned runtime downloads, and creates `release/LocalVoice-Windows-1.0.0-x64.zip` with a SHA256 file. The package includes the main README and its linked documentation. The optional installer lives beside `LocalVoice.exe` and preserves preferences and models.
+This runs portable C# tests, publishes the self-contained Windows x64 app, installs locked Windows native inference dependencies, verifies pinned runtime downloads, and creates `release/DAVE-Windows-1.0.0-x64.zip` with a SHA256 file. The package includes the main README and its linked documentation. The optional installer lives beside `DAVE.exe` and preserves preferences and models.
 
 `windows/toolchain/pins.json` pins official .NET SDK, Node, whisper.cpp CPU/CUDA, and Microsoft VCLibs archives. Hashes are verified before extraction. Windows uses `dotnet` from PATH; Apple Silicon Mac downloads a repository-local SDK. Other build hosts can set `LOCALVOICE_DOTNET` to their SDK executable. Native optional npm packages target Windows x64 and installation scripts stay disabled; packaging checks their presence. Windows packaging runs on Windows or Apple Silicon Mac; it does not establish that the app executes on the build host. CI workflows are `.github/workflows/verify.yml` (Mac) and `.github/workflows/windows.yml` (Windows). Hosted Windows runners do not provide NVIDIA GPU acceptance.
 

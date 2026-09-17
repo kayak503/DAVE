@@ -253,7 +253,7 @@ final class AppModel: ObservableObject {
         bufferedSentences = 0; waitingForAudio = false; playing = false; paused = false
     }
     func readSelection() {
-        guard accessibility.trusted else { report("Allow Accessibility for Local Voice to read selections in other apps."); return }
+        guard accessibility.trusted else { report("Allow Accessibility for DAVE to read selections in other apps."); return }
         guard !busy, !speech.recording else { report("Finish dictating before reading a selection."); return }
         busy = true
         Task {

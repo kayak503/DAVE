@@ -2,9 +2,9 @@ import { spawnSync } from 'node:child_process';
 import { access, rm, readFile } from 'node:fs/promises';
 import path from 'node:path';
 const {version}=JSON.parse(await readFile("package.json", "utf8"));
-const app = path.resolve('release/native/Local Voice.app');
+const app = path.resolve('release/native/DAVE.app');
 await access(app);
-const output = path.resolve(`release/Local Voice-Native-${version}-${process.arch}.zip`);
+const output = path.resolve(`release/DAVE-Native-${version}-${process.arch}.zip`);
 await rm(output, { force: true });
 for (const [command, args] of [
   ['codesign', ['--verify', '--deep', '--strict', app]],

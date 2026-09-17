@@ -67,7 +67,7 @@ struct AXTextEditing {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") { NSWorkspace.shared.open(url) }
     }
     private func requireTrust() throws {
-        guard trusted else { throw MacSystemError(message: "Enable Accessibility for Local Voice in System Settings, then try again.") }
+        guard trusted else { throw MacSystemError(message: "Enable Accessibility for DAVE in System Settings, then try again.") }
     }
     private func attribute(_ element: AXUIElement, _ name: String) throws -> CFTypeRef {
         var value: CFTypeRef?
@@ -174,7 +174,7 @@ struct AXTextEditing {
         try requireTrust()
         guard let front = NSWorkspace.shared.frontmostApplication,
               front.processIdentifier != ProcessInfo.processInfo.processIdentifier else {
-            throw MacSystemError(message: "Select text in another app, then use the read shortcut. Inside Local Voice, use Paste Text.")
+            throw MacSystemError(message: "Select text in another app, then use the read shortcut. Inside DAVE, use Paste Text.")
         }
         // AXFocusedUIElement is optional here: many read-only browser views return
         // -25212 even though their normal Copy command works perfectly.
@@ -324,7 +324,7 @@ struct ShortcutKeyState {
         if tap != nil && !isActive { stop() }
         let nextRead = try read.validated(), nextDictate = try dictate.validated()
         guard !nextRead.conflicts(with: nextDictate) else { throw MacSystemError(message: "Read and Dictate shortcuts overlap. Choose different shortcuts.") }
-        guard AXIsProcessTrusted() else { throw MacSystemError(message: "Enable Accessibility for Local Voice to use global shortcuts.") }
+        guard AXIsProcessTrusted() else { throw MacSystemError(message: "Enable Accessibility for DAVE to use global shortcuts.") }
         if tap == nil {
             let mask = (CGEventMask(1) << CGEventType.keyDown.rawValue) | (CGEventMask(1) << CGEventType.keyUp.rawValue)
             guard let newTap = CGEvent.tapCreate(tap: .cgSessionEventTap, place: .headInsertEventTap, options: .defaultTap, eventsOfInterest: mask, callback: { _, type, event, context in
@@ -333,7 +333,7 @@ struct ShortcutKeyState {
                     Unmanaged<GlobalHotkeys>.fromOpaque(context).takeUnretainedValue().handle(type, event)
                 }
             }, userInfo: Unmanaged.passUnretained(self).toOpaque()) else {
-                throw MacSystemError(message: "macOS could not create the global keyboard event tap. Check Accessibility access and restart Local Voice.")
+                throw MacSystemError(message: "macOS could not create the global keyboard event tap. Check Accessibility access and restart DAVE.")
             }
             guard let newSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, newTap, 0) else {
                 CFMachPortInvalidate(newTap)
@@ -464,7 +464,7 @@ struct AccessibilityProbe: Codable {
     }
     func explanation(fresh: AccessibilityProbe?, shortcutsActive: Bool) -> String {
         if !trusted {
-            if fresh?.trusted == true { return "macOS grants access to a fresh process, but this running copy has not picked it up. Save your work, quit Local Voice, and reopen this exact app." }
+            if fresh?.trusted == true { return "macOS grants access to a fresh process, but this running copy has not picked it up. Save your work, quit DAVE, and reopen this exact app." }
             return "macOS still denies this running copy. In Accessibility Settings, check the app at the path below. An older or rebuilt copy can have a separate grant. Remove the stale entry, add this app, then verify again."
         }
         if focusedApplicationError == AXError.apiDisabled.rawValue { return "macOS reports permission granted, but the Accessibility API is disabled. Save your work and reopen this app, then verify again." }

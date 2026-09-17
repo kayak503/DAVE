@@ -5,7 +5,7 @@ import {join,resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'../..');
 const testEnv={...process.env};
 if(process.argv.includes('--real'))Object.assign(testEnv,{LOCALVOICE_TRANSCRIPTION_REAL:'1',LOCALVOICE_NODE:process.execPath,LOCALVOICE_BACKEND:join(root,'macos/backend/service.mjs'),LOCALVOICE_MODELS:join(root,'.cache/models')});
-if(process.argv.includes('--metal'))Object.assign(testEnv,{LOCALVOICE_TRANSCRIPTION_REAL:'1',LOCALVOICE_TRANSCRIPTION_DEVICE:'metal',LOCALVOICE_NODE:join(root,'release/native/Local Voice.app/Contents/Resources/runtime/node'),LOCALVOICE_BACKEND:join(root,'release/native/Local Voice.app/Contents/Resources/backend/service.mjs'),LOCALVOICE_WHISPER_BIN:join(root,'release/native/Local Voice.app/Contents/Resources/runtime/whisper-cli'),LOCALVOICE_MODELS:join(root,'.cache/acceleration-models')});
+if(process.argv.includes('--metal'))Object.assign(testEnv,{LOCALVOICE_TRANSCRIPTION_REAL:'1',LOCALVOICE_TRANSCRIPTION_DEVICE:'metal',LOCALVOICE_NODE:join(root,'release/native/DAVE.app/Contents/Resources/runtime/node'),LOCALVOICE_BACKEND:join(root,'release/native/DAVE.app/Contents/Resources/backend/service.mjs'),LOCALVOICE_WHISPER_BIN:join(root,'release/native/DAVE.app/Contents/Resources/runtime/whisper-cli'),LOCALVOICE_MODELS:join(root,'.cache/acceleration-models')});
 if(process.argv.includes('--playback'))testEnv.LOCALVOICE_TRANSCRIPTION_PLAYBACK='1';
 const dir=mkdtempSync(join(tmpdir(),'native-transcription-'));
 try {

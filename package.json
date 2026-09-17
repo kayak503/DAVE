@@ -1,13 +1,13 @@
 {
-  "name": "home-auditory-interface",
-  "productName": "Local Voice",
+  "name": "dave-voice-engine",
+  "productName": "DAVE",
   "version": "1.0.0",
-  "description": "Private local reading, dictation and audio-file transcription for Mac and Windows",
+  "description": "DAVE \u2014 Dictation And Voice Engine. Everything on your device.",
   "type": "module",
   "author": "Home Auditory Interface contributors",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "open \"release/native/Local Voice.app\"",
+    "start": "open \"release/native/DAVE.app\"",
     "test": "node macos/scripts/unit-check.mjs && node macos/scripts/system-check.mjs && node macos/scripts/interaction-check.mjs && node macos/scripts/transcription-check.mjs",
     "check": "npm test && node macos/scripts/speech-check.mjs && node macos/scripts/audio-check.mjs && npm run test:transcription-backend && npm run test:transcription-real && npm run test:transcription-playback",
     "test:smoke": "node scripts/smoke.mjs",

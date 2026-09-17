@@ -69,7 +69,7 @@ private final class PlaybackPermit: @unchecked Sendable {
         let resources = Bundle.main.resourceURL!
         let node = env["LOCALVOICE_NODE"] ?? resources.appendingPathComponent("runtime/node").path
         let backend = env["LOCALVOICE_BACKEND"] ?? resources.appendingPathComponent("backend/service.mjs").path
-        guard FileManager.default.isExecutableFile(atPath: node) else { throw speechError("The bundled speech runtime is missing. Rebuild or reinstall Local Voice.") }
+        guard FileManager.default.isExecutableFile(atPath: node) else { throw speechError("The bundled speech runtime is missing. Rebuild or reinstall DAVE.") }
         let p = Process(), stdin = Pipe(), stdout = Pipe()
         p.executableURL = URL(fileURLWithPath: node); p.arguments = [backend]
         var environment = env; environment["LOCALVOICE_SESSION"] = try folder().path

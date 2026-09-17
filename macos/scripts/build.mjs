@@ -3,16 +3,16 @@ import {mkdir,cp,readdir,writeFile,chmod,rm,readFile} from 'node:fs/promises';
 import path from 'node:path';
 const root=process.cwd();
 const {version}=JSON.parse(await readFile("package.json", "utf8"));
-const app=path.resolve('release/native/Local Voice.app');
+const app=path.resolve('release/native/DAVE.app');
 const contents=path.join(app,'Contents'), resources=path.join(contents,'Resources');
 async function command(bin,args) {const r=spawnSync(bin,args,{stdio:'inherit'});if(r.status!==0)throw new Error(`${bin} failed (${r.status})`);}
 await mkdir(path.join(contents,'MacOS'),{recursive:true});
 await mkdir(resources,{recursive:true});
 await mkdir('.cache/native-build/modules',{recursive:true});
 const sources=(await readdir('macos/Sources')).filter(x=>x.endsWith('.swift')).map(x=>'macos/Sources/'+x);
-await command('xcrun',['swiftc','-swift-version','5','-target',`${process.arch==='arm64'?'arm64':'x86_64'}-apple-macosx14.0`,'-module-cache-path','.cache/native-build/modules','-O',...sources,'-o',path.join(contents,'MacOS','LocalVoice'),'-framework','SwiftUI','-framework','AppKit','-framework','AVFoundation','-framework','ApplicationServices','-framework','Carbon']);
+await command('xcrun',['swiftc','-swift-version','5','-target',`${process.arch==='arm64'?'arm64':'x86_64'}-apple-macosx14.0`,'-module-cache-path','.cache/native-build/modules','-O',...sources,'-o',path.join(contents,'MacOS','DAVE'),'-framework','SwiftUI','-framework','AppKit','-framework','AVFoundation','-framework','ApplicationServices','-framework','Carbon']);
 await writeFile(path.join(contents,'Info.plist'),`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict>
-<key>CFBundleIdentifier</key><string>local.localvoice.mac</string><key>CFBundleName</key><string>Local Voice</string><key>CFBundleDisplayName</key><string>Local Voice</string><key>CFBundleExecutable</key><string>LocalVoice</string><key>CFBundlePackageType</key><string>APPL</string><key>CFBundleShortVersionString</key><string>${version}</string><key>CFBundleVersion</key><string>1</string><key>LSMinimumSystemVersion</key><string>14.0</string><key>NSHighResolutionCapable</key><true/><key>NSMicrophoneUsageDescription</key><string>Local Voice records your voice for private, on-device dictation. Audio is never sent to a server.</string><key>NSPrincipalClass</key><string>NSApplication</string><key>CFBundleIconFile</key><string>AppIcon</string></dict></plist>`);
+<key>CFBundleIdentifier</key><string>local.localvoice.mac</string><key>CFBundleName</key><string>DAVE</string><key>CFBundleDisplayName</key><string>DAVE</string><key>CFBundleExecutable</key><string>DAVE</string><key>CFBundleGetInfoString</key><string>DAVE — Dictation And Voice Engine. Everything on your device.</string><key>CFBundlePackageType</key><string>APPL</string><key>CFBundleShortVersionString</key><string>${version}</string><key>CFBundleVersion</key><string>1</string><key>LSMinimumSystemVersion</key><string>14.0</string><key>NSHighResolutionCapable</key><true/><key>NSMicrophoneUsageDescription</key><string>DAVE records your voice for private, on-device dictation. Audio is never sent to a server.</string><key>NSPrincipalClass</key><string>NSApplication</string><key>CFBundleIconFile</key><string>AppIcon</string></dict></plist>`);
 await cp('build/icon.icns',path.join(resources,'AppIcon.icns'));
 await mkdir(path.join(resources,'runtime'),{recursive:true});
 if (process.arch === 'arm64') {

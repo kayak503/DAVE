@@ -6,7 +6,7 @@ import { spawn } from 'node:child_process';
 import { SpeechEngine } from '../core/engine.mjs';
 import { createInterface } from 'node:readline';
 const packaged=process.argv.includes('--packaged');
-const resources=resolve('release/native/Local Voice.app/Contents/Resources');
+const resources=resolve('release/native/DAVE.app/Contents/Resources');
 const wav=await readFile('test-results/transcription-two-speakers.wav');
 let p=12,pcm;
 while(p+8<=wav.length){const n=wav.readUInt32LE(p+4);if(wav.toString('ascii',p,p+4)==='data'){pcm=wav.subarray(p+8,p+8+n);break;}p+=8+n+(n%2);}

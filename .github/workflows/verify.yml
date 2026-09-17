@@ -23,7 +23,7 @@ jobs:
       - run: node macos/scripts/dmg.mjs
       - uses: actions/upload-artifact@v4
         with:
-          name: Local-Voice-1.0.0-macOS
+          name: DAVE-1.0.0-macOS
           path: |
             release/*.zip
             release/*.dmg

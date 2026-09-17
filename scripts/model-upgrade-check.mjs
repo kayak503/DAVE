@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-const {SpeechEngine,catalog} = await import(new URL(process.argv.includes('--packaged') ? '../release/native/Local Voice.app/Contents/Resources/backend/core/engine.mjs' : '../core/engine.mjs', import.meta.url));
+const {SpeechEngine,catalog} = await import(new URL(process.argv.includes('--packaged') ? '../release/native/DAVE.app/Contents/Resources/backend/core/engine.mjs' : '../core/engine.mjs', import.meta.url));
 import {resampleAudio} from '../core/audio.mjs';
 const engine=new SpeechEngine({modelDir:path.resolve('.cache/models')});
 const wav=await fs.readFile('macos/Tests/Fixtures/speech.wav');

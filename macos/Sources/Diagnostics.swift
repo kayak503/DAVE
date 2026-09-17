@@ -7,6 +7,7 @@ import AVFoundation
         let resources = Bundle.main.resourceURL!
         let result: [String: Any] = [
             "bundle": Bundle.main.bundleIdentifier ?? "",
+            "name": Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "",
             "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "",
             "path": Bundle.main.bundleURL.path,
             "native": true,

@@ -12,7 +12,7 @@ assert.equal(cleanSpeakerInterval([{start:0,end:3,speaker:'Speaker 1'}],0,3),tru
 const models=resolve('.cache/acceleration-models');
 await cp(resolve('.cache/speaker-quality/speaker-diarization-accurate'),join(models,'speaker-diarization-accurate'),{recursive:true});
 const session=await mkdtemp(join(tmpdir(),'speaker-correction-check-'));
-const packaged=process.argv.includes('--packaged'), resources=resolve('release/native/Local Voice.app/Contents/Resources');
+const packaged=process.argv.includes('--packaged'), resources=resolve('release/native/DAVE.app/Contents/Resources');
 const child=spawn(packaged?join(resources,'runtime/node'):process.execPath,[packaged?join(resources,'backend/service.mjs'):resolve('macos/backend/service.mjs')],{env:{...process.env,LOCALVOICE_MODELS:models,LOCALVOICE_SESSION:session,LOCALVOICE_WHISPER_BIN:packaged?join(resources,'runtime/whisper-cli'):resolve('.cache/metal-build/build/bin/whisper-cli')},stdio:['pipe','pipe','pipe']});
 let next=0,errors='';const pending=new Map();child.stderr.on('data',d=>errors+=d);
 createInterface({input:child.stdout}).on('line',line=>{const r=JSON.parse(line),p=pending.get(r.id);if(p){pending.delete(r.id);r.error?p.reject(Error(r.error)):p.resolve(r.result);}});

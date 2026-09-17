@@ -1,4 +1,8 @@
-# Local Voice 1.0.0
+# DAVE — Dictation And Voice Engine
+
+**Everything on your device.**
+
+Version 1.0.0
 
 Private reading, dictation, and audio-file transcription, with separate native Mac and Windows apps. Download models once, then process audio and text locally. No account, cloud inference, or model server is required.
 
@@ -6,10 +10,10 @@ The Mac interface uses SwiftUI/AppKit. The Windows interface uses WinForms. Both
 
 ## Install on Mac
 
-Requires macOS 14 or newer. The Apple Silicon build is in `release/native/Local Voice.app`.
+Requires macOS 14 or newer. The Apple Silicon build is in `release/native/DAVE.app`.
 
-- Open `release/Local Voice-1.0.0-macos-arm64.dmg` and drag **Local Voice** into **Applications**, then open it.
-- Alternatively, extract `release/Local Voice-Native-1.0.0-arm64.zip` and move the app into Applications.
+- Open `release/DAVE-1.0.0-macos-arm64.dmg` and drag **DAVE** into **Applications**, then open it.
+- Alternatively, extract `release/DAVE-Native-1.0.0-arm64.zip` and move the app into Applications.
 - From this source checkout, after building, run `bash macos/scripts/install.sh` to install into your personal Applications folder and open it. The installer refuses to overwrite an existing copy; save your session and quit before replacing it in Finder.
 
 The current local Mac artifact is **ad-hoc signed, not notarized**. A trusted public download needs Developer ID signing and notarization. There is no published Homebrew package or public download URL yet. Do not disable Gatekeeper or remove quarantine to install it. Mac System Voice works immediately; other voices and recognition models are downloaded from within the app.
@@ -26,8 +30,8 @@ Verification does not promise that every third-party text field supports inserti
 
 Requires Windows 10/11 x64. The self-contained package includes .NET, Node, CPU inference, and NVIDIA CUDA dependencies. No Python, Node, or .NET installation is needed to run it.
 
-1. Extract `release/LocalVoice-Windows-1.0.0-x64.zip` into a writable folder.
-2. Open the extracted **Local Voice** folder and run **LocalVoice.exe**. Keep every accompanying folder with the executable.
+1. Extract `release/DAVE-Windows-1.0.0-x64.zip` into a writable folder.
+2. Open the extracted **DAVE** folder and run **DAVE.exe**. Keep every accompanying folder with the executable.
 3. For a per-user installation and Start Menu shortcut, open PowerShell in that extracted folder and run `./install.ps1`. No administrator access is needed. If your organization blocks unsigned scripts, use the portable app or ask your administrator about deployment.
 
 Quit the app after exporting session work before installing an update. The installer preserves models and preferences. These local builds are **not Authenticode-signed**. There is no published winget/Chocolatey package or public download URL yet. Windows runtime acceptance is still pending; compilation does not verify its microphone, shortcuts, or GPU.
@@ -60,7 +64,7 @@ Apple Silicon recognition supports **Metal**, with separate Automatic/CPU/Apple 
 
 ## Data and privacy
 
-Mac preferences live in `~/Library/Application Support/LocalVoiceNative/preferences.json`. Existing models in `~/Library/Application Support/Hearth/models` are reused when present; otherwise models live under `LocalVoiceNative/models`. Windows stores models, preferences, and temporary sessions under `%LOCALAPPDATA%\Local Voice`; the optional installer puts the app under `%LOCALAPPDATA%\Programs\Local Voice`. Documents and transcripts are session-only: export work before quitting or updating. Temporary audio is removed after use or clean shutdown. Clipboard copies remain on the system clipboard until replaced.
+Mac preferences live in `~/Library/Application Support/LocalVoiceNative/preferences.json`. Existing models in `~/Library/Application Support/Hearth/models` are reused when present; otherwise models live under `LocalVoiceNative/models`. Windows stores models, preferences, and temporary sessions under `%LOCALAPPDATA%\Local Voice`; the optional installer puts the app under `%LOCALAPPDATA%\Programs\DAVE`. Documents and transcripts are session-only: export work before quitting or updating. Temporary audio is removed after use or clean shutdown. Clipboard copies remain on the system clipboard until replaced.
 
 ## Build and verify
 
@@ -75,3 +79,7 @@ npm start
 For the native Windows package, run `npm run build:windows` after `npm ci`. The build uses checksum-pinned runtime downloads and either the Windows .NET SDK or a repository-local SDK on Apple Silicon Mac. Compilation on Mac is not Windows runtime validation.
 
 See [development and verification](docs/DEVELOPMENT.md) for test commands, fixtures, packaging, architecture, and outstanding platform checks. See [dependencies and model notices](docs/DEPENDENCIES.md) for the runtime inventory. Public distribution still needs hosting, signing, and platform acceptance testing.
+
+## Upgrading from Local Voice
+
+DAVE keeps the existing app identity and model/settings storage paths for compatibility. No redownload or manual data migration is needed. Save/export your work and quit Local Voice before opening DAVE; the Mac single-instance check prevents both versions from running together. The Windows installer checks for both executable names. Install DAVE, then remove the old app/shortcut when you no longer need it; keep the data folders listed above.

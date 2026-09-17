@@ -7,6 +7,7 @@ struct MainView: View {
     var body: some View {
         NavigationSplitView {
             List(selection: $model.section) {
+                VStack(alignment: .leading, spacing: 3) { Text("DAVE").font(.title2.bold()); Text("Everything on your device.").font(.caption).foregroundStyle(.secondary) }.padding(.vertical, 8).accessibilityElement(children: .combine)
                 Label("Read", systemImage: "book.closed").tag(AppModel.Section.read)
                 Label("Dictate", systemImage: "mic").tag(AppModel.Section.dictate)
                 Label("Transcribe", systemImage: "waveform.badge.magnifyingglass").tag(AppModel.Section.transcribe)
@@ -200,6 +201,10 @@ struct PreferencesView: View {
     @ObservedObject var model: AppModel
     var body: some View {
         Form {
+            Section {
+                Text("DAVE — Dictation And Voice Engine").font(.headline)
+                Text("Everything on your device.").foregroundStyle(.secondary)
+            }
             Section("Voices") {
                 Picker("Voice model", selection: Binding(get: { model.preferences.value.ttsModel }, set: { value in model.updatePreferences { $0.ttsModel = value } })) { Text("Mac System Voice").tag("system"); ForEach(model.models.filter { $0.task == "tts" && $0.installed }) { Text($0.name).tag($0.id) } }
                 ForEach(model.availableVoices) { voice in
@@ -247,7 +252,7 @@ struct PreferencesView: View {
                 Button(model.verifyingAccessibility ? "Verifying…" : "Verify Accessibility") { Task { await model.verifyAccessibility() } }.disabled(model.verifyingAccessibility)
                 if !model.accessibilityVerification.isEmpty { Text(model.accessibilityVerification).font(.caption).textSelection(.enabled) }
             }
-            HStack { Text(model.preferencesStatus).foregroundStyle(model.preferences.error == nil ? Color.secondary : Color.red); Spacer(); Text("Local Voice · Native Mac").foregroundStyle(.tertiary) }.font(.caption)
+            HStack { Text(model.preferencesStatus).foregroundStyle(model.preferences.error == nil ? Color.secondary : Color.red); Spacer(); Text("DAVE · Dictation And Voice Engine").foregroundStyle(.tertiary) }.font(.caption)
         }.formStyle(.grouped).padding(.vertical, 10).onDisappear { model.stopVoicePreview() }
     }
 }

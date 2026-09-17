@@ -5,10 +5,10 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {createInterface} from 'node:readline';
 if(process.platform!=='win32')throw Error('Windows GPU validation requires Windows hardware; a macOS cross-build cannot satisfy this check.');
-const root=path.resolve(import.meta.dirname,'../..'),app=path.join(root,'release/windows/Local Voice');
+const root=path.resolve(import.meta.dirname,'../..'),app=path.join(root,'release/windows/DAVE');
 const modelDirectory=process.env.LOCALVOICE_MODELS??path.join(process.env.LOCALAPPDATA??path.join(os.homedir(),'AppData/Local'),'Local Voice/models');
 try { const manifest=JSON.parse(await readFile(path.join(modelDirectory,'whisper-tiny-metal/installed.json'),'utf8'));assert.equal(manifest.id,'whisper-tiny-metal'); }
-catch { throw Error('Download Whisper Tiny GPU files in Local Voice first, or set LOCALVOICE_MODELS to a valid managed model folder containing whisper-tiny-metal/installed.json. Raw GGML files alone are not an installed model.'); }
+catch { throw Error('Download Whisper Tiny GPU files in DAVE first, or set LOCALVOICE_MODELS to a valid managed model folder containing whisper-tiny-metal/installed.json. Raw GGML files alone are not an installed model.'); }
 const session=await mkdtemp(path.join(os.tmpdir(),'localvoice-gpu-test-'));
 const wav=await readFile(path.join(root,'macos/Tests/Fixtures/speech.wav'));
 assert.equal(wav.toString('ascii',0,4),'RIFF');let position=12,data,rate,channels,bits;
