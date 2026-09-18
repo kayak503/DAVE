@@ -15,6 +15,8 @@ public sealed class Preferences {
  public bool SeparateSpeakers {get;set;}=true;
  public int ExpectedSpeakers {get;set;}=0;
  public int ReadAhead {get;set;}=5;
+ public bool ReadCode {get;set;}=false;
+ public bool OverlayAtTop {get;set;}=false;
  public double Rate {get;set;}=1;
  public uint ReadModifiers {get;set;}=3; // Control + Alt
  public uint ReadKey {get;set;}=0x52;

@@ -5,6 +5,7 @@ import {root,cache,pins,run,download,unzip,dotnet,exists} from './toolchain.mjs'
 const output=path.join(root,'release/windows/DAVE');
 await rm(output,{recursive:true,force:true});await mkdir(output,{recursive:true});
 const sdk=await dotnet();
+if(process.platform==='win32')run(sdk,['run','--project','windows/UITests/UITests.csproj','-c','Release'],{env:{...process.env,DOTNET_CLI_HOME:cache}});
 run(sdk,['run','--project','windows/Tests/DomainTests.csproj'],{env:{...process.env,DOTNET_CLI_TELEMETRY_OPTOUT:'1',DOTNET_SKIP_FIRST_TIME_EXPERIENCE:'1',DOTNET_CLI_HOME:cache,NUGET_PACKAGES:path.join(cache,'nuget')}});
 run(sdk,['publish','windows/LocalVoice/LocalVoice.csproj','-c','Release','-r','win-x64','--self-contained','true','-p:EnableWindowsTargeting=true','-p:Version=1.0.0','-o',output],{env:{...process.env,DOTNET_CLI_TELEMETRY_OPTOUT:'1',DOTNET_SKIP_FIRST_TIME_EXPERIENCE:'1',DOTNET_CLI_HOME:cache,NUGET_PACKAGES:path.join(cache,'nuget')}});
 const backend=path.join(output,'backend'),runtime=path.join(output,'runtime');await mkdir(runtime,{recursive:true});
@@ -31,6 +32,6 @@ await cp(path.join(root,'macos/metal/LICENSE-whisper.txt'),path.join(runtime,'LI
 await writeFile(path.join(runtime,'THIRD-PARTY-NOTICES.txt'),'Node.js: LICENSE-node.txt. whisper.cpp: LICENSE-whisper.txt. NVIDIA CUDA 12.4 runtime: https://docs.nvidia.com/cuda/archive/12.4.0/eula/index.html. Microsoft VCLibs runtime: https://visualstudio.microsoft.com/license-terms/. npm dependency licenses are retained in backend/node_modules.\n');
 await writeFile(path.join(output,'BUILD-INFO.json'),JSON.stringify({version:'1.0.0',platform:'win-x64',gpu:'NVIDIA CUDA 12.4',runtimeValidation:'Requires Windows hardware; cross-compilation does not verify runtime behavior.',pins},null,2));
 const zip=path.join(root,'release/DAVE-Windows-1.0.0-x64.zip');await rm(zip,{force:true});
-if(process.platform==='win32')run('powershell.exe',['-NoProfile','-Command',`Compress-Archive -LiteralPath '${output.replaceAll("'","''")}' -DestinationPath '${zip.replaceAll("'","''")}'`]);else run('ditto',['-c','-k','--keepParent',output,zip]);
+if(process.platform==='win32')run('tar.exe',['-a','-cf',zip,'-C',path.dirname(output),path.basename(output)]);else run('ditto',['-c','-k','--keepParent',output,zip]);
 await writeFile(zip+'.sha256',createHash('sha256').update(await readFile(zip)).digest('hex')+'  '+path.basename(zip)+'\n');
-console.log(`WINDOWS_BUILD_OK ${zip} (${(await stat(zip)).size} bytes). Crosscompiled only; Windows runtime/GPU validation is separate.`);
+console.log(`WINDOWS_BUILD_OK ${zip} (${(await stat(zip)).size} bytes). Package built; microphone and GPU validation are separate.`);

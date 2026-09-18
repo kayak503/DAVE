@@ -1,5 +1,6 @@
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using NAudio.CoreAudioApi;
 namespace LocalVoice;
 public sealed class Recorder:IDisposable {
  WaveInEvent? input; readonly List<float> samples=new();
@@ -9,24 +10,27 @@ public sealed class Recorder:IDisposable {
  public void Dispose(){input?.StopRecording();input?.Dispose();input=null;}
 }
 public sealed class AudioPlayer:IDisposable {
- WaveOutEvent? output;AudioFileReader? file;RateProvider? speed;TaskCompletionSource? completion;
+ IWavePlayer? output;AudioFileReader? file;RateProvider? speed;TaskCompletionSource? completion;
+ public bool Finished=>completion?.Task.IsCompleted??false;
  public double Position=>file?.CurrentTime.TotalSeconds??0;
  public bool Playing=>output?.PlaybackState==PlaybackState.Playing;
  public double Duration=>file?.TotalTime.TotalSeconds??0;
  public double Rate{get=>speed?.Rate??1;set{if(speed!=null)speed.Rate=value;}}
- public Task Play(string path,double rate=1,double position=0){Stop();file=new AudioFileReader(path);file.CurrentTime=TimeSpan.FromSeconds(Math.Clamp(position,0,file.TotalTime.TotalSeconds));speed=new RateProvider(file,rate);output=new WaveOutEvent();completion=new(TaskCreationOptions.RunContinuationsAsynchronously);var done=completion;output.PlaybackStopped+=(_,e)=>{if(e.Exception!=null)done.TrySetException(e.Exception);else done.TrySetResult();};output.Init(speed);output.Play();return done.Task;}
- public void Seek(double seconds){if(file!=null)file.CurrentTime=TimeSpan.FromSeconds(Math.Clamp(seconds,0,file.TotalTime.TotalSeconds));}
+ public Task Play(string path,double rate=1,double position=0){Stop();try{file=new AudioFileReader(path);file.CurrentTime=TimeSpan.FromSeconds(Math.Clamp(position,0,file.TotalTime.TotalSeconds));speed=new RateProvider(file,rate);output=new WasapiOut(AudioClientShareMode.Shared,true,100);completion=new(TaskCreationOptions.RunContinuationsAsynchronously);var done=completion;output.PlaybackStopped+=(_,e)=>{if(e.Exception!=null)done.TrySetException(e.Exception);else done.TrySetResult();};output.Init(speed);output.Play();return done.Task;}catch{Stop();throw;}}
+ public void Seek(double seconds){if(file!=null&&speed!=null)speed.Seek(()=>file.CurrentTime=TimeSpan.FromSeconds(Math.Clamp(seconds,0,file.TotalTime.TotalSeconds)));}
  public void Pause(){if(output?.PlaybackState==PlaybackState.Playing)output.Pause();else if(output?.PlaybackState==PlaybackState.Paused)output.Play();}
  public void Stop(){output?.Stop();output?.Dispose();output=null;file?.Dispose();file=null;speed=null;completion?.TrySetCanceled();completion=null;}
  public void Dispose()=>Stop();
  // Change rate without regenerating speech. Pitch correction compensates the resampling ratio.
  sealed class RateProvider:ISampleProvider {
-  readonly ISampleProvider source;readonly SmbPitchShiftingSampleProvider pitch;readonly float[] input;int count;double cursor;double rate;
+  readonly ISampleProvider source;SmbPitchShiftingSampleProvider pitch;readonly float[] input;int count;double cursor;double rate;
   public double Rate{get=>rate;set{rate=Math.Clamp(value,.5,2);pitch.PitchFactor=(float)(1/rate);}}
   public WaveFormat WaveFormat=>source.WaveFormat;
   public RateProvider(ISampleProvider source,double rate){this.source=source;pitch=new SmbPitchShiftingSampleProvider(source);input=new float[16384*source.WaveFormat.Channels];Rate=rate;}
   bool ended;
-  public int Read(float[] buffer,int offset,int requested){
+  public void Seek(Action seek){lock(this){seek();count=0;cursor=0;ended=false;pitch=new SmbPitchShiftingSampleProvider(source){PitchFactor=(float)(1/rate)};}}
+  public int Read(float[] buffer,int offset,int requested){lock(this)return ReadCore(buffer,offset,requested);}
+  int ReadCore(float[] buffer,int offset,int requested){
    int channels=WaveFormat.Channels,written=0;
    while(written+channels<=requested){
     int frame=(int)cursor;

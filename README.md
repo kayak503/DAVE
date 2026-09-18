@@ -34,11 +34,11 @@ Requires Windows 10/11 x64. The self-contained package includes .NET, Node, CPU 
 2. Open the extracted **DAVE** folder and run **DAVE.exe**. Keep every accompanying folder with the executable.
 3. For a per-user installation and Start Menu shortcut, open PowerShell in that extracted folder and run `./install.ps1`. No administrator access is needed. If your organization blocks unsigned scripts, use the portable app or ask your administrator about deployment.
 
-Quit the app after exporting session work before installing an update. The installer preserves models and preferences. These local builds are **not Authenticode-signed**. There is no published winget/Chocolatey package or public download URL yet. Windows runtime acceptance is still pending; compilation does not verify its microphone, shortcuts, or GPU.
+Quit the app after exporting session work before installing an update. The installer preserves models and preferences. These local builds are **not Authenticode-signed**. There is no published winget/Chocolatey package or public download URL yet. The Windows build has been compiled and its packaged CUDA recognition verified on an RTX 3090. Microphone, external-app shortcuts, and mixed-monitor acceptance still require hands-on testing.
 
 ### Windows permissions, shortcuts, and GPU
 
-Defaults are **Ctrl+Alt+R** for selected-text reading and **Ctrl+Alt+D** to start/finish dictation. Record Ctrl/Alt/Shift shortcuts in Settings; left/right modifiers are not distinguished on Windows. The verification button re-registers shortcuts and briefly checks microphone capture. Microphone access is controlled by **Settings → Privacy → Microphone**, including access for desktop apps. Windows has no macOS Accessibility permission.
+Defaults are **Ctrl+Alt+R** for selected-text reading and **Ctrl+Alt+D** to start/finish dictation. The Windows interface uses sidebar navigation, consistent accessible button styling, responsive settings, and per-monitor DPI awareness. Compact status can appear at the top or bottom of the active screen. Record Ctrl/Alt/Shift shortcuts in Settings; left/right modifiers are not distinguished on Windows. The verification button re-registers shortcuts and briefly checks microphone capture. Microphone access is controlled by **Settings → Privacy → Microphone**, including access for desktop apps. Windows has no macOS Accessibility permission.
 
 Dictation copies text first, then requests paste only if the original nonpassword editable field is still focused. Changed, unsupported, or elevated targets may require manual **Ctrl+V**. A paste request does not prove the destination accepted the text.
 
@@ -47,7 +47,7 @@ For NVIDIA acceleration, install a driver compatible with **CUDA 12.4**, downloa
 ## What it does
 
 - **Read:** paste text or open Markdown. Read mode renders the document; Edit mode exposes its source. Click a sentence to seek, double-click to edit. Click **Speed** to cycle 0.5×, 1×, 1.2×, 1.5×, and 2× without regenerating audio. The Mac reader supports arrow-key sentence skipping and 3–10 sentences of generation ahead. Generation progress and throughput warnings explain when a model cannot keep up.
-- **Dictate:** start recording and press the button or shortcut again to finish. The Mac waveform scrolls right to left. Review or copy the text; external dictation attempts insertion and retains a clipboard fallback. Plain transcription and optional local wording suggestions are separate choices.
+- **Dictate:** start recording and press the button or shortcut again to finish. The Mac waveform scrolls right to left. Review or copy the text; external dictation attempts insertion and retains a clipboard fallback. Plain transcription and optional local wording suggestions are separate choices. Windows includes Read back and Suggest wording; suggestions require the optional wording model and are applied only after review.
 - **Transcribe:** import a recording, receive captions incrementally, listen to the recording, click captions to seek, and export TXT, SRT, or WebVTT. Long audio is decoded in bounded chunks. Stop retains completed captions.
 - **Correct speakers:** first naming Speaker 1 as Seb renames that identity throughout the transcript. Later edits can correct just one passage to John. Confirmed examples can conservatively reclassify similar, unconfirmed passages. Undo restores corrections; exports retain names. Overlapping voices and very short turns remain difficult.
 - **Choose models:** independent recognition settings for dictation and transcription; multiple reading voices within Kokoro and Supertonic; compact, accurate, and precision speaker-identification packs. Downloads are explicit, and inference stays local.
@@ -76,7 +76,9 @@ npm run build:native
 npm start
 ```
 
-For the native Windows package, run `npm run build:windows` after `npm ci`. The build uses checksum-pinned runtime downloads and either the Windows .NET SDK or a repository-local SDK on Apple Silicon Mac. Compilation on Mac is not Windows runtime validation.
+For the native Windows package, install the .NET 8 SDK, then run `npm run build:windows` after `npm ci`. `npm start` opens the package for the current platform; `npm test` runs that platform’s native checks. The build uses checksum-pinned runtime downloads and either the Windows .NET SDK or a repository-local SDK on Apple Silicon Mac. Compilation on Mac is not Windows runtime validation.
+
+See [Windows parity and validation](docs/WINDOWS_PARITY.md) for the tested scope and remaining acceptance work.
 
 See [development and verification](docs/DEVELOPMENT.md) for test commands, fixtures, packaging, architecture, and outstanding platform checks. See [dependencies and model notices](docs/DEPENDENCIES.md) for the runtime inventory. Public distribution still needs hosting, signing, and platform acceptance testing.
 

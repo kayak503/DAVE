@@ -4,6 +4,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { pipeline as streamPipeline } from 'node:stream/promises';
 import { Transform } from 'node:stream';
 import path from 'node:path';
+import { inferenceSessionOptions } from './hardware.mjs';
 
 export const catalog = [...JSON.parse(await readFile(new URL('./catalog.json', import.meta.url), 'utf8')), ...JSON.parse(await readFile(new URL('./metal-catalog.json', import.meta.url), 'utf8'))];
 export function getModel(id) {
@@ -304,7 +305,7 @@ export class SpeechEngine {
     hf.env.allowLocalModels = true;
     hf.env.useBrowserCache = false;
     hf.env.useFSCache = false;
-    const options = { dtype: model.dtype, device: 'cpu', local_files_only: true };
+    const options = { dtype: model.dtype, device: 'cpu', local_files_only: true, session_options: inferenceSessionOptions() };
     this.onProgress({ type: 'progress', modelId: id, status: 'Loading local model' });
     let runtime;
     if (task === 'tts') {

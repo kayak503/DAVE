@@ -22,8 +22,11 @@ internal sealed class HistoryMeter:Control {
  protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var values=levels.ToArray();using var pen=new Pen(Color.FromArgb(126,176,231),3);float width=Width/70f;for(int i=0;i<values.Length;i++){float h=Math.Max(2,Math.Min(Height-4,values[i]*Height*4));float x=Width-(values.Length-i)*width;e.Graphics.DrawLine(pen,x,(Height-h)/2,x,(Height+h)/2);}}
 }
 internal sealed class Overlay:Form {
- public readonly Label Status=new(){Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleCenter,ForeColor=Color.White,Font=new Font("Segoe UI",11)};
- public Overlay(){FormBorderStyle=FormBorderStyle.None;ShowInTaskbar=false;TopMost=true;BackColor=Color.FromArgb(32,37,47);Size=new Size(400,64);StartPosition=FormStartPosition.Manual;var screen=Screen.PrimaryScreen!.WorkingArea;Location=new Point(screen.Left+(screen.Width-Width)/2,screen.Bottom-Height-35);Controls.Add(Status);}
+ public readonly Label Status=new(){Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleLeft,Padding=new Padding(12),ForeColor=WindowsTheme.Ink,Font=new Font("Segoe UI",10)};
+ readonly Button primary=new(){AutoSize=true},secondary=new(){AutoSize=true};Action? primaryAction,secondaryAction;
+ public void SetControls(string first,Action firstAction,string second,Action secondAction){primary.Text=first;secondary.Text=second;primaryAction=firstAction;secondaryAction=secondAction;}
+ public Overlay(){FormBorderStyle=FormBorderStyle.None;ShowInTaskbar=false;TopMost=true;BackColor=WindowsTheme.Surface;Size=new Size(640,84);StartPosition=FormStartPosition.Manual;var screen=Screen.PrimaryScreen!.WorkingArea;Location=new Point(screen.Left+(screen.Width-Width)/2,screen.Bottom-Height-35);Controls.Add(Status);var controls=new FlowLayoutPanel{Dock=DockStyle.Right,AutoSize=true,WrapContents=false,Padding=new Padding(8,18,8,8)};controls.Controls.Add(primary);controls.Controls.Add(secondary);Controls.Add(controls);primary.Click+=(_,_)=>primaryAction?.Invoke();secondary.Click+=(_,_)=>secondaryAction?.Invoke();WindowsTheme.Apply(this);}
+ public void Present(bool atTop){var screen=Screen.FromHandle(Native.GetForegroundWindow()).WorkingArea;Location=new Point(screen.Left+(screen.Width-Width)/2,atTop?screen.Top+24:screen.Bottom-Height-24);Show();}
  protected override bool ShowWithoutActivation=>true;
  protected override CreateParams CreateParams{get{var p=base.CreateParams;p.ExStyle|=0x08000000|0x80;return p;}}
 }

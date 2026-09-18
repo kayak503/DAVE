@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWindowsForms>true</UseWindowsForms><RuntimeIdentifier>win-x64</RuntimeIdentifier><SelfContained>true</SelfContained><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode></PropertyGroup>
+ <ItemGroup><ProjectReference Include="../LocalVoice/LocalVoice.csproj" /></ItemGroup>
+</Project>
+

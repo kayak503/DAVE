@@ -27,7 +27,7 @@ npm run test:core
 npm test
 ```
 
-`test:core` runs the shared engine, model integrity, audio, acceleration, cancellation, and speaker regressions. `npm test` runs Mac document/preferences, system integration rules, interactions, and transcription controller tests. Tests that access the pasteboard, audio system, or GPU need normal macOS service access; a sandbox denial is not a product pass. These are not XCUITest results.
+`test:core` runs the shared engine, model integrity, audio, acceleration, cancellation, and speaker regressions. `npm test` runs Mac document/preferences, system integration rules, interactions, and transcription controller tests on macOS. On Windows it runs C# domain checks plus offscreen UI and buffered-audio-seek checks; renders are saved under `test-results/windows-ui`. Tests that access the pasteboard, audio system, or GPU need normal macOS service access; a sandbox denial is not a product pass. These are not XCUITest results.
 
 For real model execution:
 
@@ -79,7 +79,7 @@ The check uses the installed model directory (or `LOCALVOICE_MODELS`) and exerci
 
 ## Release acceptance and known limits
 
-The 1.0.0 baseline was exercised on Apple Silicon with actual local synthesis, Whisper Metal recognition, per-caption speaker embeddings, repeated-voice fixtures, native correction/undo/export tests, preference persistence, and package integrity checks. A successful unit test is not evidence that another application's field accepts text. The current Windows baseline is cross-compiled; its real UI/audio/GPU acceptance is still pending.
+The 1.0.0 baseline was exercised on Apple Silicon with actual local synthesis, Whisper Metal recognition, per-caption speaker embeddings, repeated-voice fixtures, native correction/undo/export tests, preference persistence, and package integrity checks. A successful unit test is not evidence that another application's field accepts text. The Windows update has been built on Windows, rendered at two window widths, and tested with actual packaged CUDA recognition on an RTX 3090. Microphone, output-device behavior, external-app interaction, and mixed-DPI monitor acceptance are still pending. See [Windows parity and validation](WINDOWS_PARITY.md).
 
 Before a public release:
 

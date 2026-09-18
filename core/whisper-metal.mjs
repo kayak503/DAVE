@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { mkdtemp, writeFile, readFile, rm, access } from 'node:fs/promises';
 import { tmpdir, availableParallelism } from 'node:os';
 import { resolve, join } from 'node:path';
+import { windowsCpuThreads } from './hardware.mjs';
 
 // Compiled capabilities and device enumeration are not evidence of an active GPU backend.
 export function accelerationFromDiagnostics(diagnostics, requested) {
@@ -62,7 +63,8 @@ export async function createWhisperMetal(modelDirectory, model, { device = 'gpu'
         await writeFile(join(directory, 'audio.wav'), wav, { mode: 0o600 });
         if (disposed || canceled || signal?.aborted) throw new DOMException('Transcription canceled.', 'AbortError');
         const output = join(directory, 'result');
-        const args = ['-m', modelPath, '-f', join(directory, 'audio.wav'), '-oj', '-of', output, '-l', 'en', '-t', String(Math.min(8, availableParallelism())), '-sns'];
+        const threads = process.platform === 'win32' ? windowsCpuThreads() : Math.min(8, availableParallelism());
+        const args = ['-m', modelPath, '-f', join(directory, 'audio.wav'), '-oj', '-of', output, '-l', 'en', '-t', String(threads), '-sns'];
         if (device === 'cpu') args.push('-ng');
         let diagnostic = '';
         await new Promise((resolveRun, reject) => {
