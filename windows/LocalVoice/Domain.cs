@@ -9,6 +9,8 @@ public sealed class Preferences {
  public string ReadingModel {get;set;}="system";
  public string ReadingVoice {get;set;}="";
  public Dictionary<string,string> Voices {get;set;}=new();
+ public int AccelerationVersion {get;set;}=1;
+ public string PreferredGpu {get;set;}="auto";
  public string DictationDevice {get;set;}="auto";
  public string TranscriptionDevice {get;set;}="auto";
  public string SpeakerModel {get;set;}="compact";
@@ -26,8 +28,9 @@ public sealed class Preferences {
  public static Preferences Load(string? path=null) {
   path ??= Path.Combine(DirectoryPath,"preferences.json");
   if(!File.Exists(path))return new();
-  var p=JsonSerializer.Deserialize<Preferences>(File.ReadAllText(path))??throw new InvalidDataException("Preferences are empty.");
+  var json=File.ReadAllText(path);var p=JsonSerializer.Deserialize<Preferences>(json)??throw new InvalidDataException("Preferences are empty.");
   if(!new[]{"auto","cpu","gpu"}.Contains(p.DictationDevice)||!new[]{"auto","cpu","gpu"}.Contains(p.TranscriptionDevice))throw new InvalidDataException("Unknown recognition device in preferences.");
+  using(var document=JsonDocument.Parse(json)){if(!document.RootElement.TryGetProperty("AccelerationVersion",out var version)||version.GetInt32()<1){p.DictationDevice=p.TranscriptionDevice="auto";p.AccelerationVersion=1;}}
   p.ReadAhead=Math.Clamp(p.ReadAhead,3,10);p.Rate=Math.Clamp(p.Rate,.5,2);p.ExpectedSpeakers=Math.Clamp(p.ExpectedSpeakers,0,20);return p;
  }
  public void Save(string? path=null) {
@@ -42,6 +45,8 @@ public sealed class Model {
  [JsonPropertyName("task")]public string Task{get;set;}="";
  [JsonPropertyName("variantOf")]public string? VariantOf{get;set;}
  [JsonPropertyName("installed")]public bool Installed{get;set;}
+ [JsonPropertyName("bundleComplete")]public bool BundleComplete{get;set;}
+ [JsonPropertyName("bundleSizeMB")]public double BundleSizeMB{get;set;}
  [JsonPropertyName("sizeMB")]public double SizeMB{get;set;}
  [JsonPropertyName("description")]public string? Description{get;set;}
  [JsonPropertyName("voices")]public Voice[]? Voices{get;set;}
@@ -100,4 +105,10 @@ public sealed class Transcript {
 public static class ReadDocument {
  public static string Plain(string text){text=Regex.Replace(text,@"```[^\n]*\n([\s\S]*?)```","$1");text=Regex.Replace(text,@"!\[([^\]]*)\]\([^)]*\)","$1");text=Regex.Replace(text,@"\[([^\]]+)\]\([^)]*\)","$1");text=Regex.Replace(text,@"(?m)^\s{0,3}(?:#{1,6}\s+|>\s*|[-*+]\s+)","");return text.Replace("**","").Replace("__","").Replace("`","");}
  public static string[] Sentences(string text)=>Regex.Split(Plain(text),@"(?<=[.!?])\s+|\n+").Where(x=>!string.IsNullOrWhiteSpace(x)).SelectMany(x=>Enumerable.Range(0,(x.Length+1199)/1200).Select(i=>x.Substring(i*1200,Math.Min(1200,x.Length-i*1200)).Trim())).Where(x=>x.Length>0).ToArray();
+}
+
+public sealed class GpuDevice {
+ [JsonPropertyName("id")]public string Id{get;set;}="";
+ [JsonPropertyName("name")]public string Name{get;set;}="";
+ [JsonPropertyName("memoryMB")]public int MemoryMB{get;set;}
 }

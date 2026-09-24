@@ -180,20 +180,21 @@ struct ModelLibraryView: View {
                 Section("Dictation & transcription") { ForEach(model.models.filter { $0.task == "stt" && $0.variantOf == nil }) { row($0) } }
                 Section("Optional wording") { ForEach(model.models.filter { $0.task == "rewrite" }) { row($0) } }
             }
-            HStack { if model.busy { ProgressView().controlSize(.small) }; Text(model.busy ? model.speech.status : "Downloads are optional. Installed models run offline.").font(.caption).foregroundStyle(.secondary); Spacer(); Button("Refresh") { Task { await model.refreshModels() } }.disabled(model.busy) }.padding()
+            HStack { if model.busy { ProgressView().controlSize(.small) }; Text(model.busy ? model.speech.status : "Recognition installs include CPU and GPU support. Installed models run offline.").font(.caption).foregroundStyle(.secondary); Spacer(); Button("Refresh") { Task { await model.refreshModels() } }.disabled(model.busy) }.padding()
         }.task { if model.models.isEmpty { await model.refreshModels() } }
     }
     func row(_ item: LocalModel) -> some View {
         HStack {
-            VStack(alignment: .leading, spacing: 5) { Text(item.name); Text("\(item.tier) · \(Int(item.sizeMB)) MB").font(.caption).foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 5) { Text(item.name); Text("\(item.tier) · \(Int(item.bundleSizeMB ?? item.sizeMB)) MB").font(.caption).foregroundStyle(.secondary)
                 if let detail = item.description { Text(detail).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true) }
                 if item.task == "stt", TranscriptionModelGuidance.recommendedForGroups(item.id) {
                     Text("Recommended tier for multi-person transcripts").font(.caption).foregroundStyle(Color.accentColor)
                 }
             }
             Spacer()
-            if item.installed { Text("Installed").foregroundStyle(.secondary).font(.caption); Button("Remove") { model.removeModel(item.id) }.disabled(model.busy || model.playing || model.speech.recording) }
-            else { Button("Download") { model.installModel(item.id) }.disabled(model.busy) }
+            if item.installed { Text((item.bundleComplete ?? true) ? "Installed" : "Setup incomplete").foregroundStyle(.secondary).font(.caption); Button("Remove") { model.removeModel(item.id) }.disabled(model.busy || model.playing || model.speech.recording) }
+            else { Button("Install") { model.installModel(item.id) }.disabled(model.busy) }
+            if item.installed && item.bundleComplete == false { Button("Complete installation") { model.installModel(item.id) }.disabled(model.busy) }
         }.padding(.vertical, 7)
     }
 }

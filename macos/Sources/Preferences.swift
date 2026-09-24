@@ -36,6 +36,7 @@ struct VoicePreferences: Codable, Equatable {
     var rate: Double = 1
     var ttsModel: String = "system"
     var sttModel: String = "whisper-tiny"
+    var accelerationVersion = 1
     var dictationDevice = "auto"
     var transcriptionDevice = "auto"
     var speakerModel = "compact"
@@ -48,7 +49,7 @@ struct VoicePreferences: Codable, Equatable {
     var readShortcut = Shortcut(keyCode: 12, modifiers: UInt64(NSEvent.ModifierFlags.option.rawValue))
     var dictateShortcut = Shortcut(keyCode: 13, modifiers: UInt64(NSEvent.ModifierFlags.option.rawValue))
     init() {}
-    enum CodingKeys: String, CodingKey { case speakerModel, dictationDevice, transcriptionDevice, transcriptionModel, readingVoices, systemVoice, generateAhead, rate, ttsModel, sttModel, voice, readCode, overlayTop, readShortcut, dictateShortcut }
+    enum CodingKeys: String, CodingKey { case accelerationVersion, speakerModel, dictationDevice, transcriptionDevice, transcriptionModel, readingVoices, systemVoice, generateAhead, rate, ttsModel, sttModel, voice, readCode, overlayTop, readShortcut, dictateShortcut }
     init(from decoder: Decoder) throws {
         self.init()
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -61,6 +62,8 @@ struct VoicePreferences: Codable, Equatable {
         speakerModel = try c.decodeIfPresent(String.self, forKey: .speakerModel) ?? "compact"
         dictationDevice = try c.decodeIfPresent(String.self, forKey: .dictationDevice) ?? "auto"
         transcriptionDevice = try c.decodeIfPresent(String.self, forKey: .transcriptionDevice) ?? "auto"
+        accelerationVersion = try c.decodeIfPresent(Int.self, forKey: .accelerationVersion) ?? 0
+        if accelerationVersion < 1 { if ["auto", "cpu", "metal"].contains(dictationDevice) { dictationDevice = "auto" }; if ["auto", "cpu", "metal"].contains(transcriptionDevice) { transcriptionDevice = "auto" }; accelerationVersion = 1 }
         readingVoices = try c.decodeIfPresent([String: String].self, forKey: .readingVoices) ?? [:]
         voice = try c.decodeIfPresent(String.self, forKey: .voice) ?? voice
         readCode = try c.decodeIfPresent(Bool.self, forKey: .readCode) ?? readCode

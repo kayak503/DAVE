@@ -8,7 +8,7 @@ struct SpeakerModelOption: Decodable, Identifiable { var id: String; var name: S
 struct ReadingVoice: Identifiable, Decodable, Equatable { var id: String; var name: String }
 
 struct LocalModel: Identifiable, Decodable {
-    var id: String; var name: String; var task: String; var tier: String; var installed: Bool; var sizeMB: Double; var voices: [ReadingVoice]?; var description: String?; var memoryGB: Double?; var variantOf: String? = nil
+    var id: String; var name: String; var task: String; var tier: String; var installed: Bool; var sizeMB: Double; var voices: [ReadingVoice]?; var description: String?; var memoryGB: Double?; var variantOf: String? = nil; var bundleComplete: Bool? = nil; var bundleSizeMB: Double? = nil
 }
 func recognitionReady(_ models: [LocalModel], id: String, device: String) -> Bool {
     let cpu = models.contains { $0.id == id && $0.installed }

@@ -4,6 +4,12 @@ import { tmpdir, availableParallelism } from 'node:os';
 import { resolve, join } from 'node:path';
 import { windowsCpuThreads } from './hardware.mjs';
 
+export function whisperProcessError(code, diagnostic = '') {
+  if ((Number(code) >>> 0) === 0xc0e90002)
+    return Error('Windows application control blocked the native recognition library. Complete this model’s installation in Models to use its ONNX CPU fallback, or ask your administrator to approve the signed runtime.');
+  return Error(`Whisper exited with code ${code}. ${diagnostic.slice(-1800)}`);
+}
+
 // Compiled capabilities and device enumeration are not evidence of an active GPU backend.
 export function accelerationFromDiagnostics(diagnostics, requested) {
   let provider = 'cpu';
@@ -35,7 +41,8 @@ export function parseWhisperResult(json, duration) {
   }).filter(c => c.text && c.timestamp[1] > c.timestamp[0]);
   return { text: chunks.map(c => c.text).join(' ').trim(), chunks };
 }
-export async function createWhisperMetal(modelDirectory, model, { device = 'gpu', binary = device === 'cpu' ? (process.env.LOCALVOICE_WHISPER_CPU_BIN || process.env.LOCALVOICE_WHISPER_BIN) : process.env.LOCALVOICE_WHISPER_BIN, binaryArgs = [] } = {}) {
+export async function createWhisperMetal(modelDirectory, model, { device = 'gpu', gpu = 'auto', binary = device === 'cpu' ? (process.env.LOCALVOICE_WHISPER_CPU_BIN || process.env.LOCALVOICE_WHISPER_BIN) : process.env.LOCALVOICE_WHISPER_BIN, binaryArgs = [] } = {}) {
+  if (gpu !== 'auto' && !/^GPU-[a-f\d-]+$/i.test(gpu)) throw Error('Invalid GPU selection.');
   if (!['cpu', 'gpu'].includes(device)) throw Error('Unknown Whisper device.');
   if (!binary) throw Error('The bundled Whisper GPU runtime is missing. Reinstall Local Voice.');
   const filename = model.files?.find(f => /^ggml-[a-z0-9.-]+\.bin$/.test(f.path))?.path;
@@ -69,7 +76,7 @@ export async function createWhisperMetal(modelDirectory, model, { device = 'gpu'
         let diagnostic = '';
         await new Promise((resolveRun, reject) => {
           let timeout;
-          child = spawn(binary, [...binaryArgs, ...args], { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
+          child = spawn(binary, [...binaryArgs, ...args], { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true, env: { ...process.env, ...(device === 'gpu' && gpu !== 'auto' ? { CUDA_VISIBLE_DEVICES: gpu } : {}) } });
           child.stderr.on('data', d => { diagnostic = (diagnostic + d.toString()).slice(-256 * 1024); });
           let timedOut = false;
           timeout = setTimeout(() => { timedOut = true; terminate(); }, 10 * 60 * 1000); timeout.unref();
@@ -80,13 +87,13 @@ export async function createWhisperMetal(modelDirectory, model, { device = 'gpu'
             cleanup();
             if (disposed || canceled || signal?.aborted) reject(new DOMException('Transcription canceled.', 'AbortError'));
             else if (timedOut) reject(Error('Whisper transcription timed out. Try a smaller model.'));
-            else if (code !== 0) reject(Error(`Whisper exited with code ${code}. ${diagnostic.slice(-1800)}`));
+            else if (code !== 0) reject(whisperProcessError(code, diagnostic));
             else resolveRun();
           });
         });
         const result = parseWhisperResult(JSON.parse(await readFile(`${output}.json`, 'utf8')), audio.length / sampleRate);
         if (disposed || canceled || signal?.aborted) throw new DOMException('Transcription canceled.', 'AbortError');
-        return { ...result, ...(timestamps ? {} : { chunks: [] }), acceleration: accelerationFromDiagnostics(diagnostic, device) };
+        return { ...result, ...(timestamps ? {} : { chunks: [] }), acceleration: { ...accelerationFromDiagnostics(diagnostic, device), gpu: device === 'gpu' ? gpu : undefined } };
       } finally {
         busy = false;
         if (directory) await rm(directory, { recursive: true, force: true });

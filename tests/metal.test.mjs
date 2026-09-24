@@ -3,7 +3,25 @@ import assert from 'node:assert/strict';
 import { mkdtemp, writeFile, chmod, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { accelerationFromDiagnostics, encodeWhisperWav, parseWhisperResult, createWhisperMetal } from '../core/whisper-metal.mjs';
+import { accelerationFromDiagnostics, encodeWhisperWav, parseWhisperResult, createWhisperMetal, whisperProcessError } from '../core/whisper-metal.mjs';
+
+test('Windows signing-policy failures explain model completion and trusted approval',()=>{
+ assert.match(whisperProcessError(3236495362).message,/application control.*ONNX CPU fallback/);
+ assert.match(whisperProcessError(-1058471934).message,/application control/);
+ assert.match(whisperProcessError(3,'model failure').message,/code 3.*model failure/);
+});
+
+test('selected GPU UUID is isolated in the child process, not confused with an integrated adapter index',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'dave-device-test-'));
+ try{
+  await writeFile(join(dir,'ggml-test.bin'),'fixture');
+  const script=join(dir,'device.mjs');
+  await writeFile(script,`import {writeFile} from 'node:fs/promises';if(process.env.CUDA_VISIBLE_DEVICES!=='GPU-aaaa')process.exit(5);const output=process.argv[process.argv.indexOf('-of')+1];await writeFile(output+'.json',JSON.stringify({transcription:[{text:'selected GPU',offsets:{from:0,to:1000}}]}));process.stderr.write('whisper_backend_init_gpu: using CUDA0 backend\\n');`);
+  const runtime=await createWhisperMetal(dir,{files:[{path:'ggml-test.bin'}]},{gpu:'GPU-aaaa',binary:process.execPath,binaryArgs:[script]});
+  try{const result=await runtime.transcribe(new Float32Array(16000),16000);assert.equal(result.acceleration.gpu,'GPU-aaaa');assert.equal(result.acceleration.provider,'cuda');}finally{runtime.dispose();}
+  await assert.rejects(createWhisperMetal(dir,{},{gpu:'0; bad',binary:process.execPath}),/Invalid GPU/);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
 
 test('reports effective backend, never equates compiled Metal support to actual use', () => {
   assert.equal(accelerationFromDiagnostics('Metal : EMBED_LIBRARY = 1', 'gpu').provider, 'cpu');

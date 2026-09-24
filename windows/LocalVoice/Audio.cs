@@ -21,31 +21,36 @@ public sealed class AudioPlayer:IDisposable {
  public void Pause(){if(output?.PlaybackState==PlaybackState.Playing)output.Pause();else if(output?.PlaybackState==PlaybackState.Paused)output.Play();}
  public void Stop(){output?.Stop();output?.Dispose();output=null;file?.Dispose();file=null;speed=null;completion?.TrySetCanceled();completion=null;}
  public void Dispose()=>Stop();
- // Change rate without regenerating speech. Pitch correction compensates the resampling ratio.
+ // SoundTouch changes tempo alone: no resampling/pitch-correction cascade.
+ // All processor access is serialized with the audio callback, including seek/rate changes.
  sealed class RateProvider:ISampleProvider {
-  readonly ISampleProvider source;SmbPitchShiftingSampleProvider pitch;readonly float[] input;int count;double cursor;double rate;
-  public double Rate{get=>rate;set{rate=Math.Clamp(value,.5,2);pitch.PitchFactor=(float)(1/rate);}}
+  readonly ISampleProvider source;
+  SoundTouch.SoundTouchProcessor processor;
+  readonly float[] input;
+  readonly object gate=new();
+  bool ended,direct;double rate;
   public WaveFormat WaveFormat=>source.WaveFormat;
-  public RateProvider(ISampleProvider source,double rate){this.source=source;pitch=new SmbPitchShiftingSampleProvider(source);input=new float[16384*source.WaveFormat.Channels];Rate=rate;}
-  bool ended;
-  public void Seek(Action seek){lock(this){seek();count=0;cursor=0;ended=false;pitch=new SmbPitchShiftingSampleProvider(source){PitchFactor=(float)(1/rate)};}}
-  public int Read(float[] buffer,int offset,int requested){lock(this)return ReadCore(buffer,offset,requested);}
-  int ReadCore(float[] buffer,int offset,int requested){
-   int channels=WaveFormat.Channels,written=0;
-   while(written+channels<=requested){
-    int frame=(int)cursor;
-    while(!ended&&(frame+1)*channels>=count){
-     int consumed=Math.Min(frame*channels,count);
-     if(consumed>0){Array.Copy(input,consumed,input,0,count-consumed);count-=consumed;cursor-=consumed/channels;frame=(int)cursor;}
-     int n=pitch.Read(input,count,input.Length-count);if(n==0)ended=true;else count+=n;
-    }
-    if(frame*channels>=count)return written;
-    int next=Math.Min(frame+1,count/channels-1);double fraction=cursor-frame;
-    for(int c=0;c<channels;c++){float a=input[frame*channels+c],b=input[next*channels+c];buffer[offset+written++]=(float)(a+(b-a)*fraction);}
-    cursor+=rate;
+  public double Rate {get{lock(gate)return rate;}set{lock(gate){rate=Math.Clamp(value,.5,2);processor.Tempo=rate;if(rate!=1)direct=false;}}}
+  public RateProvider(ISampleProvider source,double rate){
+   this.source=source;processor=new(){SampleRate=source.WaveFormat.SampleRate,Channels=source.WaveFormat.Channels};
+   input=new float[4096*source.WaveFormat.Channels];direct=rate==1;Rate=rate;
+  }
+  public void Seek(Action seek){lock(gate){seek();processor=new(){SampleRate=WaveFormat.SampleRate,Channels=WaveFormat.Channels,Tempo=rate};ended=false;direct=rate==1;}}
+  public int Read(float[] buffer,int offset,int requested){lock(gate){
+   int channels=WaveFormat.Channels;requested-=requested%channels;
+   if(direct)return source.Read(buffer,offset,requested);
+   int written=0;
+   while(written<requested){
+    int frames=processor.ReceiveSamples(buffer.AsSpan(offset+written,requested-written),(requested-written)/channels);
+    written+=frames*channels;
+    if(written==requested||ended&&frames==0)break;
+    if(frames>0)continue;
+    int count=source.Read(input,0,input.Length);
+    if(count>0)processor.PutSamples(input.AsSpan(0,count),count/channels);
+    else{processor.Flush();ended=true;}
    }
    return written;
-  }
+  }}
  }
 }
 public sealed class ChunkReader:IDisposable {

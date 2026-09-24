@@ -8,7 +8,7 @@ The [main README](../README.md) is the installation and user guide for DAVE 1.0.
 | --- | --- |
 | `macos/Sources/` | Native SwiftUI/AppKit interface, permissions, recording, playback, document preparation, and preferences |
 | `macos/Tests/` | Standalone Swift behavior tests and fixed public speech fixture |
-| `windows/LocalVoice/` | Native .NET Windows Forms interface, audio, shortcuts, and UI Automation integration |
+| `windows/LocalVoice/` | WPF interface with WinForms audio/shortcut host and UI Automation integration |
 | `windows/Tests/` | Portable C# document, preference, and speaker-correction tests |
 | `core/` | Local model engine, integrity-checked catalogs, audio resampling, synthesis and recognition runtimes |
 | `macos/backend/` | Shared JSONL service used by both apps, segmentation and speaker identification |
@@ -60,6 +60,17 @@ node scripts/release-check.mjs
 Output: `release/native/DAVE.app`, a ZIP, and a DMG named with the package version and CPU architecture. The backend dependency directory is rebuilt from the current production dependency graph so removed packages cannot linger in a bundle. The build verifies its code signature. Local ad-hoc signing is not Developer ID signing or notarization; permission grants can become stale after a rebuild. Apple Silicon Metal builds use pinned whisper.cpp and CMake downloads. Intel GPU execution is not claimed.
 
 ## Package Windows
+
+On this Windows checkout, the direct command below avoids relying on PowerShell script execution being enabled:
+
+```powershell
+cd "C:/Users/aribe/Documents/code Repos/DAVE"
+& "C:/Users/aribe/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe" windows/scripts/build-check.mjs --parity
+```
+
+Add `--check-tools` to verify the toolchain without rebuilding. Once the build prints `WINDOWS_BUILD_OK`, launch `release/windows-parity/DAVE/DAVE.exe`. The optional `./rebuild.ps1` helper builds and launches automatically when local PowerShell policy permits scripts.
+
+If UI validation fails with `0x800711C7` (sometimes surfaced as the generic CLR exit code `3762504530`), Windows Application Control blocked a binary. This is separate from PowerShell's script execution policy. On the current development PC, Smart App Control is enabled and the rebuilt `DAVE.dll` was blocked. The binaries require signing trusted by the active policy before validation can complete. The build preserves the existing package on failure; its presence does not mean the rebuild succeeded. See [Microsoft's Smart App Control signing guidance](https://learn.microsoft.com/en-us/windows/apps/develop/smart-app-control/code-signing-for-smart-app-control).
 
 ```sh
 npm run build:windows

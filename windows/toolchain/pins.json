@@ -15,6 +15,10 @@
     "url": "https://github.com/ggml-org/whisper.cpp/releases/download/v1.8.3/whisper-bin-x64.zip",
     "sha256": "d824b1e37599f882b396e73f1ee0bfd5d0529f700314c48311dcbd00b803321d"
   },
+  "soundTouchSource": {
+    "url": "https://codeload.github.com/owoudenberg/soundtouch.net/zip/98e5b8fd2f8efed0ddf7c8f66b435bfb231659dc",
+    "sha256": "6db11c905dfaddaf2990efb3fcc5c29ded2a62aee3c3849af62c600bada69c62"
+  },
   "vcrt": {
     "url": "https://download.microsoft.com/download/4/7/c/47c6134b-d61f-4024-83bd-b9c9ea951c25/Microsoft.VCLibs.x64.14.00.Desktop.appx",
     "sha256": "b56a9101f706f9d95f815f5b7fa6efbac972e86573d378b96a07cff5540c5961"

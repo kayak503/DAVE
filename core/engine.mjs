@@ -4,6 +4,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { pipeline as streamPipeline } from 'node:stream/promises';
 import { Transform } from 'node:stream';
 import path from 'node:path';
+import { gpuDevices, chooseGpu } from './gpu-devices.mjs';
 import { inferenceSessionOptions } from './hardware.mjs';
 
 export const catalog = [...JSON.parse(await readFile(new URL('./catalog.json', import.meta.url), 'utf8')), ...JSON.parse(await readFile(new URL('./metal-catalog.json', import.meta.url), 'utf8'))];
@@ -88,6 +89,7 @@ export class SpeechEngine {
     this.controller = null;
     this.epoch = 0;
     this.recovery = null;
+    this.gpuFailures = new Map();
   }
   directory(id) {
     return path.join(this.modelDir, getModel(id).id);
@@ -275,12 +277,12 @@ export class SpeechEngine {
       await rm(temp, { recursive: true, force: true });
     }
   }
-  async load(id, task, device) {
+  async load(id, task, device, gpu = 'auto') {
     const model = getModel(id);
     if (model.engine !== 'whisper-metal') validateDevice(device);
     await this.recover();
     if (model.task !== task) throw new Error('Model task does not match this operation.');
-    if (this.loaded?.id === id && this.loaded.device === device) return this.loaded.runtime;
+    if (this.loaded?.id === id && this.loaded.device === device && (this.loaded.gpu ?? 'auto') === gpu) return this.loaded.runtime;
     if (!(await this.installed(model)))
       throw new Error(`Install or import ${model.name} before using it.`);
     await verifyDirectory(this.directory(id), model);
@@ -290,8 +292,8 @@ export class SpeechEngine {
     }
     if (model.engine === 'whisper-metal') {
       const { createWhisperMetal } = await import('./whisper-metal.mjs');
-      const runtime = await createWhisperMetal(this.directory(id), model, { device });
-      this.loaded = { id, device, runtime };
+      const runtime = await createWhisperMetal(this.directory(id), model, { device, gpu });
+      this.loaded = { id, device, gpu, runtime };
       return runtime;
     }
     if (model.engine === 'supertonic') {
@@ -365,7 +367,7 @@ export class SpeechEngine {
     if (epoch !== this.epoch) throw new Error('Cancelled.');
     return { audio: result.audio, sampleRate: result.sampling_rate };
   }
-  async transcribe({ modelId, audio, sampleRate, device = 'cpu', timestamps = false }) {
+  async transcribe({ modelId, audio, sampleRate, device = 'auto', gpu = 'auto', timestamps = false }) {
     if (
       sampleRate !== 16000 ||
       !(audio instanceof Float32Array) ||
@@ -384,18 +386,23 @@ export class SpeechEngine {
     let energy = 0;
     for (const x of audio) energy += x * x;
     if (Math.sqrt(energy / audio.length) < 0.0005) return { text: '', chunks: [], acceleration: { requested: device, provider: 'none', detail: 'No speech detected; recognition was not needed.' } };
-    let acceleration = { requested: device, provider: 'cpu', detail: device === 'auto' ? 'CPU · download GPU files in Settings to enable acceleration' : 'CPU · selected in Settings' };
-    if (explicitGPU && !metalInstalled) throw new Error('Download GPU files for this model in Settings → Acceleration.');
+    let acceleration = { requested: device, provider: 'cpu', detail: device === 'auto' ? 'CPU · complete this model’s installation in Models to enable acceleration' : 'CPU · selected in Settings' };
+    if (explicitGPU && !metalInstalled) throw new Error('Complete this model’s installation in Models to enable GPU acceleration.');
     if (metalInstalled && (device !== 'cpu' || original.engine === 'whisper-metal' || !(await this.installed(original)))) {
       try {
-        const metal = await this.load(companion.id, 'stt', device === 'cpu' ? 'cpu' : 'gpu');
+        const previousFailure = this.gpuFailures.get(`${companion.id}:${gpu}`);
+        if (device === 'auto' && previousFailure && Date.now() - previousFailure.at < 60000) throw new Error(previousFailure.message);
+        const selectedGpu = device !== 'cpu' && process.platform === 'win32' ? chooseGpu(await gpuDevices(), gpu)?.id ?? 'auto' : 'auto';
+        const metal = await this.load(companion.id, 'stt', device === 'cpu' ? 'cpu' : 'gpu', selectedGpu);
         if (epoch !== this.epoch) throw new Error('Cancelled.');
         const result = await metal.transcribe(audio, sampleRate, { timestamps });
         if (epoch !== this.epoch) throw new Error('Cancelled.');
         if (explicitGPU && !(process.platform === 'win32' ? ['cuda', 'vulkan'] : ['metal']).includes(result.acceleration?.provider)) throw new Error('GPU acceleration could not start. Choose CPU or Automatic in Settings.');
+        this.gpuFailures.delete(`${companion.id}:${gpu}`);
         return { ...result, acceleration: { ...result.acceleration, requested: device } };
       } catch (error) {
         if (epoch !== this.epoch || explicitGPU || device === 'cpu') throw error;
+        if (!this.gpuFailures.has(`${companion.id}:${gpu}`) || Date.now() - this.gpuFailures.get(`${companion.id}:${gpu}`).at >= 60000) this.gpuFailures.set(`${companion.id}:${gpu}`, { at: Date.now(), message: error.message });
         acceleration.detail = `CPU fallback · GPU unavailable: ${error.message}`;
         // GGML weights work on CPU too. Windows ships a separate CPU executable so
         // a missing CUDA driver must not require another model download.

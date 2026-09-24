@@ -38,11 +38,11 @@ Quit the app after exporting session work before installing an update. The insta
 
 ### Windows permissions, shortcuts, and GPU
 
-Defaults are **Ctrl+Alt+R** for selected-text reading and **Ctrl+Alt+D** to start/finish dictation. The Windows interface uses sidebar navigation, consistent accessible button styling, responsive settings, and per-monitor DPI awareness. Compact status can appear at the top or bottom of the active screen. Record Ctrl/Alt/Shift shortcuts in Settings; left/right modifiers are not distinguished on Windows. The verification button re-registers shortcuts and briefly checks microphone capture. Microphone access is controlled by **Settings → Privacy → Microphone**, including access for desktop apps. Windows has no macOS Accessibility permission.
+Defaults are **Ctrl+Alt+R** for selected-text reading and **Ctrl+Alt+D** to start/finish dictation. The Windows interface uses rounded controls, spaced settings cards, sidebar navigation, and per-monitor DPI awareness. Notifications appear as text at the bottom; the old countdown progress bar has been removed. Compact status can appear at the top or bottom of the active screen. Record Ctrl/Alt/Shift shortcuts in Settings; left/right modifiers are not distinguished on Windows. The verification button re-registers shortcuts and briefly checks microphone capture. Microphone access is controlled by **Settings → Privacy → Microphone**, including access for desktop apps. Windows has no macOS Accessibility permission.
 
 Dictation copies text first, then requests paste only if the original nonpassword editable field is still focused. Changed, unsupported, or elevated targets may require manual **Ctrl+V**. A paste request does not prove the destination accepted the text.
 
-For NVIDIA acceleration, install a driver compatible with **CUDA 12.4**, download the selected recognition model's **GPU files** in Models, then choose **Automatic** or **NVIDIA GPU** in Settings. Automatic reports CPU fallback; explicit GPU reports failure if CUDA cannot start. AMD and Intel GPUs use CPU in this build.
+For NVIDIA acceleration, install a driver compatible with **CUDA 12.4**, install the recognition model in Models. One install includes CPU and GPU files. **Automatic** is the default: it prefers a supported GPU and falls back to CPU. Settings also lets you choose a particular NVIDIA GPU; Automatic GPU selection prefers the one with the most dedicated memory. Automatic reports CPU fallback; explicit GPU reports failure if CUDA cannot start. AMD and Intel GPUs use CPU in this build.
 
 ## What it does
 
@@ -60,7 +60,7 @@ Whisper recognition models and WeSpeaker speaker-identification models solve dif
 
 The optional **WeSpeaker ResNet293 LM (Precision)** pack is approximately **120.3 MB**, alongside Compact and ResNet152 Accurate. Each pack uses its own matching thresholds. Repeated-voice tests verify identity consistency and usable correction embeddings, but do not establish that the largest model is best for your D&D recording. Compare a representative excerpt before transcribing hours of audio. See [speaker model details and evidence](docs/SPEAKER_MODELS.md).
 
-Apple Silicon recognition supports **Metal**, with separate Automatic/CPU/Apple GPU choices for dictation and transcription. Windows uses a bundled **CUDA** recognition runtime for compatible NVIDIA GPUs. Download the GPU model files in the app; they are distinct from CPU ONNX model files. Explicit GPU mode reports failure instead of silently claiming acceleration. Automatic mode reports CPU fallback. **Reading and speaker identification currently use CPU**, even when recognition uses GPU. See [Mac acceleration internals](docs/METAL.md) and [Supertonic models](docs/SUPERTONIC.md).
+Apple Silicon recognition supports **Metal**, with separate Automatic/CPU/Apple GPU choices for dictation and transcription. Windows uses a bundled **CUDA** recognition runtime for compatible NVIDIA GPUs. Each recognition-model install includes both CPU ONNX and GPU weights. Existing partial installs offer **Complete installation**; there are no separate GPU-download buttons. Explicit GPU mode reports failure instead of silently claiming acceleration. Automatic mode reports CPU fallback. **Reading and speaker identification currently use CPU**, even when recognition uses GPU. See [Mac acceleration internals](docs/METAL.md) and [Supertonic models](docs/SUPERTONIC.md).
 
 ## Data and privacy
 

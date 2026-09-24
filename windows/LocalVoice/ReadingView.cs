@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace LocalVoice;
 
@@ -9,9 +10,16 @@ internal sealed class ReadingView:RichTextBox
  public List<string> Items {get;}=new();
  readonly List<(int Start,int Length)> spans=new();
  int selected=-1;
+ string? renderedSource;bool renderedCode;
+ [DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr window,int message,IntPtr wParam,IntPtr lParam);
  public ReadingView(){Dock=DockStyle.Fill;ReadOnly=true;BorderStyle=BorderStyle.None;DetectUrls=false;HideSelection=false;Font=new Font("Segoe UI",14);}
  public void SetDocument(string source,bool readCode)
  {
+  if(renderedSource==source&&renderedCode==readCode)return;
+  bool suppressPaint=IsHandleCreated&&Visible;
+  if(suppressPaint)SendMessage(Handle,0x000B,IntPtr.Zero,IntPtr.Zero);
+  SuspendLayout();
+  try{
   Clear();Items.Clear();spans.Clear();selected=-1;
   bool code=false;
   foreach(string line in source.Replace("\r","").Split('\n'))
@@ -36,7 +44,8 @@ internal sealed class ReadingView:RichTextBox
     }
    }
   }
-  Select(0,0);ScrollToCaret();
+  Select(0,0);ScrollToCaret();ClearUndo();renderedSource=source;renderedCode=readCode;
+  }finally{ResumeLayout();if(suppressPaint){SendMessage(Handle,0x000B,new IntPtr(1),IntPtr.Zero);Invalidate();}}
  }
  public int SelectedIndex
  {
